@@ -1,0 +1,49 @@
+name: Pull Request CI
+
+on:
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  pull_requests:
+    permissions: write-all
+    name: PULL REQUESTS TESTS
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout the test repository
+        uses: actions/checkout@v4
+  
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.17.0'
+
+      - name: Install Requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U -r requirements.txt
+          npm install @playwright/test
+          npx playwright install-deps
+          rfbrowser init
+
+      - name: Run the tests
+        run: robot -d reports tests/
+
+
+      - name: Upload PR Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-test-results
+          path: |
+            ./reports
+          retention-days: 5
+          if-no-files-found: ignore
