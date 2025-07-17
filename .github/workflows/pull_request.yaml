@@ -25,7 +25,6 @@ jobs:
         with:
           node-version: '22.17.0'
 
-      # Cache pip dependencies
       - name: Cache pip
         uses: actions/cache@v4
         with:
@@ -33,17 +32,6 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-
-      # Cache npm dependencies
-      - name: Cache node modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.npm
-            node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json', '**/npm-shrinkwrap.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
 
       - name: Install Requirements
         run: |
