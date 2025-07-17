@@ -44,7 +44,7 @@ jobs:
         run: rfbrowser init
 
       - name: Run the tests
-        run: robot -d reports tests/
+        run: robot -d reports/ -v HEADLESS:True tests/
 
       - name: Upload PR Artifacts
         if: always()
