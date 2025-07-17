@@ -51,7 +51,9 @@ jobs:
           pip install -U -r requirements.txt
           npm install @playwright/test
           npx playwright install-deps
-          rfbrowser init
+
+      - name: Init Browser Library 
+        run: rfbrowser init
 
       - name: Run the tests
         run: robot -d reports tests/
