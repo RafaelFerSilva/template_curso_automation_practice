@@ -7,7 +7,7 @@ Library             Browser
 *** Variables ***
 ${BASE_URL}     https://test-automation-practice.com.br/
 ${BROWSER}      chromium
-${HEADLESS}     False
+${HEADLESS}     True
 ${VIEWPORT}=    {'width': 1920, 'height': 1080}
 
 
