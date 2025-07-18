@@ -1,23 +1,12 @@
 *** Settings ***
-Documentation       This is my first test with Robot Framework
+Documentation       This resource file contains common keywords and settings for browser automation.
 
 Library             Browser
 Library             Collections
 Variables           ${EXECDIR}/resources/config_variables.py
 
 
-*** Test Cases ***
-Should be possible to open the site and verify the title
-    Open the Test Automation Practice Site
-
-Should be possible to open the site on mobile and verify the title
-    Open the Test Automation Practice Site    is_mobile=True
-
-
 *** Keywords ***
-Validate Test Automation Practice Page Title
-    Get Title    ==    Test Automation Practice - Plataforma Completa de Automação
-
 Set Mobile context
     [Documentation]    Configures the browser context for a specific mobile device.
     ...
@@ -57,4 +46,3 @@ Open the Test Automation Practice Site
     New Browser    ${BROWSER}    headless=${HEADLESS}
     Config New Context
     New Page    /
-    Validate Test Automation Practice Page Title
