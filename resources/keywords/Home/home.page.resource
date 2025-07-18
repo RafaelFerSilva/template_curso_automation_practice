@@ -1,7 +1,7 @@
 *** Settings ***
 Library     Browser
 Library     Collections
-Resource    ${EXECDIR}/resources/keywords/Home/home.variables.resource
+Resource    home.variables.resource
 Resource    ${EXECDIR}/resources/common.keywords.resource
 
 
@@ -41,3 +41,10 @@ Validate Application Page URL
     [Documentation]    Validates the current page URL matches the expected URL.
     [Arguments]    ${resource_key}
     Validate Page URL    ${URL_RESOURCES}[${resource_key}]
+
+Accept Cookies If Needed
+    [Arguments]    ${accept_cookies}=True
+    IF    ${accept_cookies}
+        ${is_visible}=    Run Keyword And Return Status    Wait For Elements State    ${COOKIE_ACCEPT_ALL}    visible
+        IF    ${is_visible}    Click    ${COOKIE_ACCEPT_ALL}
+    END

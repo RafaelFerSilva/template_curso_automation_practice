@@ -1,6 +1,6 @@
 *** Settings ***
 Resource    ${EXECDIR}/resources/common.keywords.resource
-Resource    ${EXECDIR}/resources/keywords/Home/home.page.resource
+Resource    home.page.resource
 
 
 *** Keywords ***
@@ -10,9 +10,10 @@ Validate If Home Page Is Displayed
     Validate If Cards Of Features Is Visible On Home Page
 
 Open The Test Automation Practice Site
-    [Arguments]    ${is_mobile}=False
+    [Arguments]    ${is_mobile}=False    ${accept_cookies}=True
     Open The Application    ${is_mobile}
     Validate If Home Page Is Displayed
+    Accept Cookies If Needed    ${accept_cookies}
 
 Click On Card And Validate Navigation
     [Arguments]    ${card_key}

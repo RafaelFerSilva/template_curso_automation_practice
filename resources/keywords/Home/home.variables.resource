@@ -68,3 +68,5 @@ ${PAGE_TITLE}=                  data-testid=page-title
 ...                             CHALLENGES=challenges
 ...                             PERFORMANCE=performance
 ...                             DOC=docs
+
+${COOKIE_ACCEPT_ALL}=           data-testid=cookie-accept-all
