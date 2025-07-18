@@ -40,3 +40,31 @@ ${HERE_DESCRIPTION}=            data-testid=hero-description
 ...                             CHALLENGES=Páginas com bugs intencionais e elementos problemáticos
 ...                             PERFORMANCE=Páginas com carregamento lento e timeouts
 ...                             DOC=Guia completo de todas as funcionalidades
+
+${PAGE_TITLE}=                  data-testid=page-title
+
+&{PAGE_TITLE_TEXT}              ELEMENTS=Elementos Básicos
+...                             FORMS=Formulários
+...                             ALERTS=Alertas e Modais
+...                             WIDGETS=Widgets Interativos
+...                             TABLES=Tabelas Dinâmicas
+...                             FILES=Upload e Download
+...                             AUTH=Autenticação
+...                             CRUD=CRUD Operations
+...                             API=API Playground
+...                             CHALLENGES=Desafios
+...                             PERFORMANCE=Performance
+...                             DOC=Documentação
+
+&{URL_RESOURCES}                ELEMENTS=elements
+...                             FORMS=forms
+...                             ALERTS=alerts
+...                             WIDGETS=widgets
+...                             TABLES=tables
+...                             FILES=files
+...                             AUTH=auth
+...                             CRUD=crud
+...                             API=api-playground
+...                             CHALLENGES=challenges
+...                             PERFORMANCE=performance
+...                             DOC=docs
