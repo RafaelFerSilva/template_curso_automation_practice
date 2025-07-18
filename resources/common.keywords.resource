@@ -30,7 +30,7 @@ Config New Context
         New Context    &{NEW_CONTEXT}
     END
 
-Open the Test Automation Practice Site
+Open The Application
     [Documentation]    Opens the browser with settings defined in the NEW_CONTEXT object (config_variables.py).
     ...
     ...    Arguments:
@@ -46,3 +46,8 @@ Open the Test Automation Practice Site
     New Browser    ${BROWSER}    headless=${HEADLESS}
     Config New Context
     New Page    /
+
+Validate Page URL
+    [Documentation]    Validates if the current page URL matches the expected resource.
+    [Arguments]    ${expected_resource}
+    Get Url    ==    ${BASE_URL}${expected_resource}

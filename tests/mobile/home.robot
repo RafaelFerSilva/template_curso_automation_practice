@@ -4,9 +4,9 @@ Documentation       This is test suite for home page
 Resource            ${EXECDIR}/resources/common.keywords.resource
 Resource            ${EXECDIR}/resources/keywords/Home/home.keywords.resource
 
-Suite Setup         Open the Test Automation Practice Site    is_mobile=True
+Suite Setup         Open The Test Automation Practice Site    is_mobile=True
 
 
 *** Test Cases ***
-Should be possible to open the site on the home page
-    Validate If Home Page Is Displayed
+Should Be Possible To Navigate To Pages By Home Page Card
+    Click on each of the cards on the home page and validate the title of the redirected page
