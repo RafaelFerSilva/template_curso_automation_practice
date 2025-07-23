@@ -49,7 +49,7 @@ jobs:
         if: always()
         id: test_coverage
         run: |
-          python ./resources/libraries/test_coverage_validator.py \
+          python ./resources/libs/test_coverage_validator.py \
             ./reports/output.xml \
             --min-coverage 80 \
             --output-dir ./reports/coverage || exit 1
