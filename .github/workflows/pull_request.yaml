@@ -43,13 +43,13 @@ jobs:
         run: rfbrowser init
 
       - name: Run the tests
-        run: pabot --processes 4 -d ./reports --output output.xml -v HEADLESS:true -v PIPELINE:true --nostatusrc  --testlevelsplit ./tests
+        run: pabot --processes 4 -d ./reports --output output.xml -v HEADLESS:true -v PIPELINE:true --nostatusrc ./tests
       
       - name: Validate Test Coverage
         if: always()
         id: test_coverage
         run: |
-          python ./resources/libs/test_coverage_validator.py \
+          python ./resources/libs/test_coverage_validator.py \a
             ./reports/output.xml \
             --min-coverage 80 \
             --output-dir ./reports/coverage || exit 1
