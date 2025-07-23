@@ -43,7 +43,41 @@ jobs:
         run: rfbrowser init
 
       - name: Run the tests
-        run: robot -d reports/ -v HEADLESS:True tests/
+        run: pabot --processes 4 -d ./reports --output output.xml -v HEADLESS:true -v PIPELINE:true --nostatusrc  --testlevelsplit ./tests
+      
+      - name: Validate Test Coverage
+        if: always()
+        id: test_coverage
+        run: |
+          python ./resources/libraries/test_coverage_validator.py \
+            ./reports/output.xml \
+            --min-coverage 80 \
+            --output-dir ./reports/coverage || exit 1
+
+      - name: Read Markdown Report  
+        id: read_report
+        if: always()
+        run: |
+          report_file=$(ls ./reports/coverage/test_coverage_report_*.md | head -n 1)
+          echo "report_path=$report_file" >> $GITHUB_OUTPUT
+          cat $report_file
+
+      - name: Create GitHub Comment
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            const reportPath = '${{ steps.read_report.outputs.report_path }}';
+            const reportContent = fs.readFileSync(reportPath, 'utf8');
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: reportContent
+            });
 
       - name: Upload PR Artifacts
         if: always()
@@ -52,5 +86,7 @@ jobs:
           name: pr-test-results
           path: |
             ./reports
+            ./reports/coverage
+            ./reports/robotmetrics
           retention-days: 5
           if-no-files-found: ignore
