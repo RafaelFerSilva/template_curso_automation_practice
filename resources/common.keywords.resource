@@ -3,6 +3,7 @@ Documentation       This resource file contains common keywords and settings for
 
 Library             Browser
 Library             Collections
+Library             FakerLibrary    locale=pt_BR
 Variables           ${EXECDIR}/resources/config_variables.py
 
 
@@ -51,3 +52,33 @@ Validate Page URL
     [Documentation]    Validates if the current page URL matches the expected resource.
     [Arguments]    ${expected_resource}
     Get Url    ==    ${BASE_URL}${expected_resource}
+
+Validate If Button With Text Is Visible
+    [Arguments]    ${button_text}
+    Wait For Elements State    button >> text=${button_text}    visible
+
+Click On Button By Text
+    [Arguments]    ${button_text}    ${button}=left
+    Click    button >> text=${button_text}    ${button}
+
+Create A Faker User Data
+    ${name}=    FakerLibrary.Name
+    ${email}=    FakerLibrary.Email
+    ${password}=    FakerLibrary.Password
+    ${number}=    FakerLibrary.Random Number    digits=2
+    ${age}=    FakerLibrary.Date Of Birth    minimum_age=18    maximum_age=100
+    ${message}=    FakerLibrary.Text
+    ${option}=    FakerLibrary.RandomElement    elements=["Opção 1", "Opção 2", "Opção 3", "Opção 4"]
+
+    ${user_data}=    Create Dictionary
+    ...    name=${name}
+    ...    email=${email}
+    ...    password=${password}
+    ...    number=${number}
+    ...    age=${age}
+    ...    message=${message}
+    ...    option=${option}
+
+    Log Dictionary    ${user_data}
+
+    RETURN    ${user_data}
