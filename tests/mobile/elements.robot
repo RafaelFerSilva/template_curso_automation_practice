@@ -74,7 +74,7 @@ Should Be Possible Move Slider
     Set Slider Value    25
 
 Should Be Possible Validade Progress Bar
-    Click    data-testid=button-start-progress
+    Click To Start Progress Bar
     Wait For Progress Bar To Reach Value    100
 
 Should Be Possible Update Counter
