@@ -1,6 +1,6 @@
 BROWSER=     "chromium"
 HEADLESS=    False
-VIEWPORT=    {'width': 1920, 'height': 1080}
+VIEWPORT=    {'width': 1280, 'height': 720}
 MOBILE = False
 DEVICE = "iPhone X"
 BASE_URL = "https://test-automation-practice.com.br/"
