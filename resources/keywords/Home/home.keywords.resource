@@ -18,7 +18,7 @@ Open The Test Automation Practice Site
 Click On Card And Validate Navigation
     [Arguments]    ${card_key}
     Click On Card Button    ${card_key}
-    Wait For Load State    domcontentloaded
+    Wait For Load State    load    10s
     Validate Application Page URL    ${card_key}
     Validate Page Title    ${card_key}
 
