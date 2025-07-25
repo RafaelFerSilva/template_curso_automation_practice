@@ -47,7 +47,7 @@ Open The Application
     Set Suite Variable    ${MOBILE}    ${is_mobile}
     New Browser    ${BROWSER}    headless=${HEADLESS}
     Config New Context
-    New Page    /    
+    New Page    /
 
 Validate Page URL
     [Documentation]    Validates if the current page URL matches the expected resource.
@@ -148,3 +148,11 @@ Format String To Pattern
 
     ${formatted}=    Evaluate    '''${pattern}'''.format(*${parts})
     RETURN    ${formatted}
+
+Generate Xpath By Attribute
+    [Documentation]    Generates an XPath locator based on the provided attribute, HTML element, and extension.
+    [Arguments]    ${xpath_attribute}    ${html_element}=//input    ${xpath_extension}=//parent::div//p
+    ${attr_pair}=    Set Variable    ${xpath_attribute}
+    ${attr_name}    ${attr_value}=    Split String    ${attr_pair}    =
+    ${xpath_locator}=    Set Variable    xpath=${html_element}\[@${attr_name}="${attr_value}"]${xpath_extension}
+    RETURN    ${xpath_locator}

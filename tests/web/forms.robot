@@ -30,3 +30,9 @@ Should Be Possible Clean Form
     Fill User Data On Form    ${USER}
     Click On Form Clean Button
     Check If Form Is Empty
+
+Should Display Error Messages For Mandatory Fields
+    [Tags]    mandatory-fields
+    Check To Send Payment Information
+    Click On Form Submit Button
+    Validate Mandatory Fields Error Messages
