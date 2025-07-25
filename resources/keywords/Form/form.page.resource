@@ -13,7 +13,7 @@ Type Text On Form Input
 Type User Birthday
     [Arguments]    ${birth_date}
     Type Date    ${birth_date}    ${FORM}[BIRTHDAY]
-    ${form_data} =    Get Text    ${FORM}[BIRTHDAY]
+    ${form_data}=    Get Text    ${FORM}[BIRTHDAY]
     Should Be Equal As Strings    ${form_data}    ${birth_date}
 
 Select User Gender
@@ -64,16 +64,52 @@ Check If Error Toast Appears
 
 Check If Form Is Empty
     [Documentation]    Iterates through form elements and asserts they are empty or in their default state.
+
+    # Mapeia os valores esperados para campos específicos
+    &{expected_values}=    Create Dictionary
+    ...    GENDER=Selecione
+    ...    STATE=Selecione o estado
+
     FOR    ${key}    IN    @{FORM.keys()}
-        IF    '${key}' == 'GENDER'
-            Get Text    ${FORM}[${key}]    ==    Selecione
-        ELSE IF    '${key}' == 'STATE'
-            Get Text    ${FORM}[${key}]    ==    Selecione o estado
-        ELSE IF    '${key}' == 'WANTS_PAYMENT'
-            Check To Send Payment Information
-        ELSE IF    '${key}' in ['CLEAN_FORM', 'SUBMIT_BUTTON', 'FORM_TOAST', 'FORM_TOAST_TITLE','FORM_TOAST_DESCRIPTION']
+        # Ignora chaves que não precisam de verificação
+        IF    '${key}' in ['CLEAN_FORM', 'SUBMIT_BUTTON', 'FORM_TOAST', 'FORM_TOAST_TITLE', 'FORM_TOAST_DESCRIPTION']
             CONTINUE
-        ELSE
-            Get Text    ${FORM}[${key}]    ==    ${EMPTY}
         END
+
+        # Caso especial para WANTS_PAYMENT
+        IF    '${key}' == 'WANTS_PAYMENT'
+            Check To Send Payment Information
+            CONTINUE
+        END
+
+        # Verifica valor esperado no dicionário ou vazio por padrão
+        ${expected}=    Set Variable If    '${key}' in ${expected_values}    ${expected_values['${key}']}    ${EMPTY}
+        Get Text    ${FORM}[${key}]    ==    ${expected}
+    END
+
+Validate Mandatory Fields Error Messages
+    [Documentation]    Iterates through all form inputs and checks for mandatory field error messages.
+
+    # Mapeia os valores esperados para campos específicos
+    &{expected_values}=    Create Dictionary
+    ...    GENDER=//button
+    ...    STATE=//button
+
+    FOR    ${key}    IN    @{FORM.keys()}
+        # Ignora chaves que não precisam de verificação
+        IF    '${key}' in ['CLEAN_FORM', 'SUBMIT_BUTTON', 'FORM_TOAST', 'FORM_TOAST_TITLE', 'FORM_TOAST_DESCRIPTION', 'WANTS_PAYMENT']
+            CONTINUE
+        END
+
+        ${element}=    Set Variable If
+        ...    '${key}' in ${expected_values}
+        ...    ${expected_values['${key}']}
+        ...    //input
+
+        ${xpath_locator}=    Generate Xpath By Attribute
+        ...    xpath_attribute=${FORM}[${key}]
+        ...    html_element=${element}
+        ...    xpath_extension=//following-sibling::p
+
+        Wait For Elements State    ${xpath_locator} >> text=${FORM_ERRORS['${key}']}    visible
     END
