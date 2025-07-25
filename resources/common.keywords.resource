@@ -4,6 +4,7 @@ Documentation       This resource file contains common keywords and settings for
 Library             Browser
 Library             Collections
 Library             FakerLibrary    locale=pt_BR
+Library             String
 Variables           ${EXECDIR}/resources/config_variables.py
 
 
@@ -46,7 +47,7 @@ Open The Application
     Set Suite Variable    ${MOBILE}    ${is_mobile}
     New Browser    ${BROWSER}    headless=${HEADLESS}
     Config New Context
-    New Page    /
+    New Page    /    
 
 Validate Page URL
     [Documentation]    Validates if the current page URL matches the expected resource.
@@ -62,17 +63,44 @@ Click On Button By Text
     Click    button >> text=${button_text}    ${button}
 
 Create A Faker User Data
+    [Arguments]    ${user_identifier}=USER
     ${name}=    FakerLibrary.Name
+    ${last_name}=    FakerLibrary.Last Name
     ${email}=    FakerLibrary.Email
-    ${password}=    FakerLibrary.Password
-    ${number}=    FakerLibrary.Random Number    digits=2
+    ${phone}=    FakerLibrary.Numerify    text=(##) ####-####
+    ${cpf}=    FakerLibrary.CPF
     ${age}=    FakerLibrary.Date Of Birth    minimum_age=18    maximum_age=100
+    ${gender}=    FakerLibrary.RandomElement    elements=["Masculino", "Feminino", "Outro", "Prefiro não dizer"]
+
+    ${address}=    FakerLibrary.Address
+    ${address}=    Replace String    ${address}    \n    ${EMPTY}
+    ${city}=    FakerLibrary.City
+    ${state}=    FakerLibrary.State
+    ${zip}=    FakerLibrary.Numerify    text=#####-###
+
+    ${card_number}=    FakerLibrary.Numerify    text=#### #### #### ####
+    ${expiration_date}=    FakerLibrary.Credit Card Expire    date_format="%m/%y"
+    ${cvv}=    FakerLibrary.Numerify    text=###
+    ${password}=    FakerLibrary.Password
+
+    ${number}=    FakerLibrary.Random Number    digits=2
     ${message}=    FakerLibrary.Text
     ${option}=    FakerLibrary.RandomElement    elements=["Opção 1", "Opção 2", "Opção 3", "Opção 4"]
 
     ${user_data}=    Create Dictionary
     ...    name=${name}
+    ...    last_name=${last_name}
     ...    email=${email}
+    ...    phone=${phone}
+    ...    cpf=${cpf}
+    ...    gender=${gender}
+    ...    address=${address}
+    ...    city=${city}
+    ...    state=${state}
+    ...    zip=${zip}
+    ...    card_number=${card_number}
+    ...    expiration_date=${expiration_date}
+    ...    cvv=${cvv}
     ...    password=${password}
     ...    number=${number}
     ...    age=${age}
@@ -81,4 +109,42 @@ Create A Faker User Data
 
     Log Dictionary    ${user_data}
 
+    Set Test Variable    ${${user_identifier}}    ${user_data}
     RETURN    ${user_data}
+
+Type Date
+    [Arguments]    ${data}    ${locator}
+    ${day}=    Set Variable    ${data.day}
+    ${month}=    Set Variable    ${data.month}
+    ${year}=    Set Variable    ${data.year}
+
+    IF    ${data.day} < 10
+        ${day}=    Set Variable    0${data.day}
+    END
+    IF    ${data.month} < 10
+        ${month}=    Set Variable    0${data.month}
+    END
+
+    Type Text    ${locator}    ${month}${day}${year}
+
+Format String To Pattern
+    [Documentation]    Formata uma string de acordo com o padrão esperado.
+    ...    Exemplo: Format String To Pattern    20250723    {0}/{1}/{2}    4,2,2
+    [Arguments]    ${input_string}    ${pattern}    ${split_sizes}
+
+    @{sizes}=    Split String    ${split_sizes}    ,
+    FOR    ${i}    IN RANGE    ${sizes.__len__()}
+        ${sizes[${i}]}=    Convert To Integer    ${sizes[${i}]}
+    END
+
+    ${start}=    Set Variable    0
+    @{parts}=    Create List
+    FOR    ${size}    IN    @{sizes}
+        ${end}=    Evaluate    ${start} + ${size}
+        ${part}=    Evaluate    str(${input_string}[${start}:${end}])
+        Append To List    ${parts}    ${part}
+        ${start}=    Set Variable    ${end}
+    END
+
+    ${formatted}=    Evaluate    '''${pattern}'''.format(*${parts})
+    RETURN    ${formatted}

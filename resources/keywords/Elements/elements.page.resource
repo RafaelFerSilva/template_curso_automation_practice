@@ -3,6 +3,7 @@ Library     Browser
 Library     Collections
 Library     String
 Resource    elements.variables.resource
+Resource    ${EXECDIR}/resources/common.keywords.resource
 
 
 *** Keywords ***
@@ -213,18 +214,7 @@ Type User Number
 
 Type User Age
     [Arguments]    ${age}
-    ${day}=    Set Variable    ${age.day}
-    ${month}=    Set Variable    ${age.month}
-    ${year}=    Set Variable    ${age.year}
-
-    IF    ${age.day} < 10
-        ${day}=    Set Variable    0${age.day}
-    END
-    IF    ${age.month} < 10
-        ${month}=    Set Variable    0${age.month}
-    END
-
-    Type Text    ${CARD_FORM_ELEMENTS_INPUT_DATE}    ${month}${day}${year}
+    Type Date    ${age}    ${CARD_FORM_ELEMENTS_INPUT_DATE}
 
 Type User Message
     [Arguments]    ${message}
