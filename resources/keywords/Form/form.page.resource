@@ -9,6 +9,7 @@ Type Text On Form Input
     [Arguments]    ${key}    ${text}
     Type Text    ${FORM}[${key}]    ${text}
     Get Text    ${FORM}[${key}]    ==    ${text}
+    Keyboard Key    press    Tab
 
 Type User Birthday
     [Arguments]    ${birth_date}
@@ -30,6 +31,7 @@ Select User State
 
 Check To Send Payment Information
     Check Checkbox    ${FORM}[WANTS_PAYMENT]
+    Get Checkbox State    ${FORM}[WANTS_PAYMENT]    ==    True
 
 Click On Form Submit Button
     Click    ${FORM}[SUBMIT_BUTTON]
@@ -113,3 +115,36 @@ Validate Mandatory Fields Error Messages
 
         Wait For Elements State    ${xpath_locator} >> text=${FORM_ERRORS['${key}']}    visible
     END
+
+Validate Format Fields Error Messages
+    [Documentation]    Iterates through all form inputs and checks for format-specific error messages.
+    # Mapeia os valores esperados para campos específicos
+    &{expected_values}=    Create Dictionary
+    ...    GENDER=//button
+    ...    STATE=//button
+
+    FOR    ${key}    IN    @{FORM.keys()}
+        # Ignora chaves que não precisam de verificação
+        IF    '${key}' in ['BIRTHDAY', 'GENDER', 'STATE', 'ADDRESS', 'CITY','CLEAN_FORM', 'SUBMIT_BUTTON', 'FORM_TOAST', 'FORM_TOAST_TITLE', 'FORM_TOAST_DESCRIPTION', 'WANTS_PAYMENT']
+            CONTINUE
+        END
+
+        ${element}=    Set Variable If
+        ...    '${key}' in ${expected_values}
+        ...    ${expected_values['${key}']}
+        ...    //input
+
+        ${xpath_locator}=    Generate Xpath By Attribute
+        ...    xpath_attribute=${FORM}[${key}]
+        ...    html_element=${element}
+        ...    xpath_extension=//following-sibling::p
+
+        Wait For Elements State    ${xpath_locator} >> text=${FORM_FORMAT_ERRORS['${key}']}    visible
+    END
+
+Validate Error Message When Passwords Is Not Equal
+    ${xpath_locator}=    Generate Xpath By Attribute
+    ...    xpath_attribute=${FORM}[CONFIRM_PASSWORD]
+    ...    html_element=//input
+    ...    xpath_extension=//following-sibling::p
+    Wait For Elements State    ${xpath_locator} >> text=Senhas não coincidem    visible

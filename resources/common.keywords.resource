@@ -112,6 +112,56 @@ Create A Faker User Data
     Set Test Variable    ${${user_identifier}}    ${user_data}
     RETURN    ${user_data}
 
+Create A Faker User With Invalid Data
+    [Arguments]    ${user_identifier}=INVALID_USER
+
+    ${name}=    FakerLibrary.Random Letter
+    ${last_name}=    FakerLibrary.Random Letter
+    ${email}=    FakerLibrary.Name
+    ${phone}=    FakerLibrary.Numerify    text=(##) ####-###
+    ${cpf}=    FakerLibrary.Numerify    text=###.###.##
+    ${age}=    FakerLibrary.Date Of Birth    minimum_age=0    maximum_age=17
+    ${gender}=    FakerLibrary.RandomElement    elements=["Masculino", "Feminino", "Outro", "Prefiro não dizer"]
+
+    ${address}=    FakerLibrary.Paragraph
+    ${city}=    FakerLibrary.Name
+    ${state}=    FakerLibrary.State
+    ${zip}=    FakerLibrary.Numerify    text=#####
+
+    ${card_number}=    FakerLibrary.Numerify    text=#### #### #### ##
+    ${expiration_date}=    FakerLibrary.Numerify    text=##/#
+    ${cvv}=    FakerLibrary.Numerify    text=##
+    ${password}=    FakerLibrary.Password    length=5
+
+    ${number}=    FakerLibrary.Random Number    digits=2
+    ${message}=    FakerLibrary.Text
+    ${option}=    FakerLibrary.RandomElement    elements=["Opção 1", "Opção 2", "Opção 3", "Opção 4"]
+
+    ${user_data}=    Create Dictionary
+    ...    name=${name}
+    ...    last_name=${last_name}
+    ...    email=${email}
+    ...    phone=${phone}
+    ...    cpf=${cpf}
+    ...    gender=${gender}
+    ...    address=${address}
+    ...    city=${city}
+    ...    state=${state}
+    ...    zip=${zip}
+    ...    card_number=${card_number}
+    ...    expiration_date=${expiration_date}
+    ...    cvv=${cvv}
+    ...    password=${password}
+    ...    number=${number}
+    ...    age=${age}
+    ...    message=${message}
+    ...    option=${option}
+
+    Log Dictionary    ${user_data}
+
+    Set Test Variable    ${${user_identifier}}    ${user_data}
+    RETURN    ${user_data}
+
 Type Date
     [Arguments]    ${data}    ${locator}
     ${day}=    Set Variable    ${data.day}
