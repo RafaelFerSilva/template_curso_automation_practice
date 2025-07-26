@@ -25,3 +25,16 @@ Should Display Toast Notifications
 
     Open Info Toast Notification
     Close Toast Notification    Informação
+
+Validate that the notification disappears after seconds
+    Open Success Toast Notification
+    Check If Toast Notification Title Is Visible    Sucesso!    hidden
+
+    Open Warning Toast Notification
+    Check If Toast Notification Title Is Visible    Atenção!    hidden
+
+    Open Erro Toast Notification
+    Check If Toast Notification Title Is Visible    Erro!    hidden
+
+    Open Info Toast Notification
+    Check If Toast Notification Title Is Visible    Informação    hidden
