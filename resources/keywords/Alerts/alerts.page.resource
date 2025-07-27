@@ -32,3 +32,12 @@ Check If Toast Notification Description Is Visible
 
 Click On Toast Notification Close Button
     Click    ${TOAST_NOTIFICATION_CLOSE_BUTTON}
+
+Click On Browser Alert Button
+    Click    ${BROWSER_ALERT_BUTTON}
+
+Click On Browser Confirm Button
+    Click    ${BROWSER_CONFIRM_BUTTON}
+
+Click On Browser Prompt Button
+    Click    ${BROWSER_PROMPT_BUTTON}
