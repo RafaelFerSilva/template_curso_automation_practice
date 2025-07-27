@@ -30,3 +30,32 @@ ${TOAST_NOTIFICATION_CLOSE_BUTTON}=         ${TOAST_NOTIFICATION} >> button >> [
 ${BROWSER_ALERT_BUTTON}=                    data-testid=btn-secondary-browser-alert
 ${BROWSER_CONFIRM_BUTTON}=                  data-testid=btn-secondary-browser-confirm
 ${BROWSER_PROMPT_BUTTON}=                   data-testid=btn-secondary-browser-prompt
+
+${SIMPLE_MODAL_BUTTON}=                     data-testid=btn-primary-open-modal
+${DELETE_MODAL_BUTTON}=                     data-testid=btn-delete-open-confirm
+${FORM_MODAL_BUTTON}=                       data-testid=btn-primary-open-form-modal
+${TEMP_ALERT_MODAL_BUTTON}=                 data-testid=btn-primary-timed-alert
+${DINAMIC_MODAL_BUTTON}=                    data-testid=btn-primary-auto-dismiss
+
+${SIMPLE_MODAL}=                            data-testid=modal-simple
+&{SIMPLE_MODAL_COMPONENTE}=                 TITLE=${SIMPLE_MODAL} >> data-testid=dialog-title
+...                                         DESCRIPTION=${SIMPLE_MODAL} >> data-testid=dialog-description-simple
+...                                         STATUS=${SIMPLE_MODAL} >> data-testid=stats-value-modal-open-count
+...                                         BUTTON=${SIMPLE_MODAL} >> data-testid=btn-close
+
+${DELETE_MODAL}=                            data-testid=alert-dialog-content
+&{DELETE_MODAL_COMPONENTE}=                 TITLE=${DELETE_MODAL} >> data-testid=alert-dialog-title
+...                                         DESCRIPTION=${DELETE_MODAL} >> data-testid=alert-dialog-description
+...                                         CANCEL=${DELETE_MODAL} >> data-testid=alert-dialog-cancel
+...                                         CONFIRM=${DELETE_MODAL} >> data-testid=alert-dialog-action
+
+${MODAL_FORM}=                              data-testid=modal-form
+&{MODAL_FORM_COMPONENT}=                    TITLE=${MODAL_FORM} >> data-testid=dialog-title
+...                                         DESCRIPTION=${MODAL_FORM} >> data-testid=dialog-description-form
+...                                         NAME=${MODAL_FORM} >> data-testid=input-modal-name
+...                                         EMAIL=${MODAL_FORM} >>data-testid=input-modal-email
+...                                         MENSAGEM=${MODAL_FORM} >> data-testid=textarea-modal-message
+...                                         CANCEL=${MODAL_FORM} >> data-testid=btn-cancel
+...                                         CONFIRM=${MODAL_FORM} >> data-testid=btn-submit-form-modal
+
+${ALERT_AUTO_DISMISS}=                      data-testid=alert-auto-dismiss >> span >> text=$$
