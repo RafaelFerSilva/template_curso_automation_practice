@@ -54,3 +54,31 @@ Open Erro Toast Notification
 Open Info Toast Notification
     Click On Toast Notification Button    INFO    text=Toast de Info
     Check If Toast Notification Is Visible    title=Informação    description=Dados atualizados
+
+Execute Browser Alert
+    [Arguments]    ${text}    ${action}=accept
+
+    ${promise} =    Promise To    Wait For Alert    action=${action}    text=${text}
+    Click On Browser Alert Button
+    ${text} =    Wait For    ${promise}
+    Log Many    ${text}
+
+Execute Confirm/Dismiss Browser Alert
+    [Arguments]    ${text}    ${action}=accept
+
+    ${promise} =    Promise To    Wait For Alert    action=${action}    text=${text}
+    Click On Browser Confirm Button
+    ${text} =    Wait For    ${promise}
+    Log Many    ${text}
+
+Execute Prompt Browser Alert
+    [Arguments]    ${alert_text}    ${prompt_input}    ${action}=accept
+
+    ${promise} =    Promise To
+    ...    Wait For Alert
+    ...    action=${action}
+    ...    text=${alert_text}
+    ...    prompt_input=${prompt_input}
+    Click On Browser Prompt Button
+    ${text} =    Wait For    ${promise}
+    Log Many    ${text}

@@ -26,3 +26,7 @@ ${TOAST_NOTIFICATION_TITLE}=                ${TOAST_NOTIFICATION} >> [data-testi
 ${TOAST_NOTIFICATION_DESCRIPTION}=          ${TOAST_NOTIFICATION} >> [data-testid^="toast-description-"] >> text=$$
 
 ${TOAST_NOTIFICATION_CLOSE_BUTTON}=         ${TOAST_NOTIFICATION} >> button >> [data-testid^="toast-close"]
+
+${BROWSER_ALERT_BUTTON}=                    data-testid=btn-secondary-browser-alert
+${BROWSER_CONFIRM_BUTTON}=                  data-testid=btn-secondary-browser-confirm
+${BROWSER_PROMPT_BUTTON}=                   data-testid=btn-secondary-browser-prompt

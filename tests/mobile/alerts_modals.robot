@@ -3,10 +3,10 @@ Resource        ${EXECDIR}/resources/common.keywords.resource
 Resource        ${EXECDIR}/resources/keywords/Home/home.keywords.resource
 Resource        ${EXECDIR}/resources/keywords/Alerts/alerts.keywords.resource
 
-Test Setup      Run Keywords    Open The Test Automation Practice Site    AND
+Test Setup      Run Keywords    Open The Test Automation Practice Site    is_mobile=True    AND
 ...                 Click On Card And Validate Navigation    ALERTS
 
-Test Tags       web    alerts
+Test Tags       mobile    alerts    alerts_mobile
 
 
 *** Test Cases ***
