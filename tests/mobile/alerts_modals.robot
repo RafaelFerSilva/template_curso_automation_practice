@@ -69,3 +69,104 @@ Should Be Possible Dismiss Handle Prompt Alert
     ...    alert_text=Digite seu nome:
     ...    action=dismiss
     ...    prompt_input=${message}
+
+Should Be Possible Open Simple Modal
+    [Tags]    simple_modal    modal_test
+    Open Simple Modal
+    ...    Modal de Informação
+    ...    Esta é uma janela modal com informações importantes. Você pode interagir com os elementos aqui dentro.
+    ...    Este modal foi aberto 1 vez(es) durante esta sessão.
+
+    [Teardown]    Close Simple Modal
+    ...    Modal de Informação
+    ...    Esta é uma janela modal com informações importantes. Você pode interagir com os elementos aqui dentro.
+    ...    Este modal foi aberto 1 vez(es) durante esta sessão.
+
+Should Be Possible Confirm Delete Modal
+    [Tags]    delete_modal    modal
+    Open Delete Modal
+    ...    Você tem certeza?
+    ...    Esta ação não pode ser desfeita. Isso irá remover permanentemente os dados selecionados.
+    Confirm Delete Modal
+    ...    Você tem certeza?
+    ...    Esta ação não pode ser desfeita. Isso irá remover permanentemente os dados selecionados.
+    Check If Toast Notification Is Visible    title=Ação confirmada    description=Você escolheu: Confirmar
+
+Should Be Possible Cancel Delete Modal
+    [Tags]    delete_modal    modal
+    Open Delete Modal
+    ...    Você tem certeza?
+    ...    Esta ação não pode ser desfeita. Isso irá remover permanentemente os dados selecionados.
+    Cancel Delete Modal
+    ...    Você tem certeza?
+    ...    Esta ação não pode ser desfeita. Isso irá remover permanentemente os dados selecionados.
+
+Should Be Possible Execute Temp Alert Modal
+    [Tags]    temp_alert_modal    modal
+    Click On Temp Alert Modal Button
+
+    Check If Toast Notification Is Visible
+    ...    title=Aguarde...
+    ...    description=Processando solicitação...
+    ...    timeout=20s
+    Check If Toast Notification Is Visible
+    ...    title=Aguarde...
+    ...    description=Processando solicitação...
+    ...    state=hidden
+    ...    timeout=20s
+
+    Check If Toast Notification Is Visible    title=Concluído!    description=Operação realizada com sucesso
+    Check If Toast Notification Is Visible
+    ...    title=Concluído!
+    ...    description=Operação realizada com sucesso
+    ...    state=hidden
+
+Should Be Possible Send Form Modal Information
+    [Tags]    form_modal    modal
+    ${name}=    FakerLibrary.Name
+    ${email}=    FakerLibrary.Email
+    ${mensagem}=    FakerLibrary.Catch Phrase
+
+    Open Form Modal
+    ...    Enviar Mensagem
+    ...    Preencha o formulário abaixo para enviar uma mensagem.
+
+    Send Modal Information
+    ...    ${name}
+    ...    ${email}
+    ...    ${mensagem}
+
+    Check If Toast Notification Is Visible    title=Formulário enviado    description=Dados salvos com sucesso!
+
+Should Be Possible Cancel Form Modal
+    [Tags]    form_modal    modal
+    ${name}=    FakerLibrary.Name
+    ${email}=    FakerLibrary.Email
+    ${mensagem}=    FakerLibrary.Catch Phrase
+
+    Open Form Modal
+    ...    Enviar Mensagem
+    ...    Preencha o formulário abaixo para enviar uma mensagem.
+    Input Values On Form Modal    ${name}    ${email}    ${mensagem}
+    Click On Form Modal Cancel Button
+
+Should Not Be Possible Send Modal Without Mandatory Information
+    [Tags]    form_modal    modal
+    ${name}=    FakerLibrary.Name
+    ${email}=    FakerLibrary.Email
+    ${mensagem}=    FakerLibrary.Catch Phrase
+
+    Open Form Modal
+    ...    Enviar Mensagem
+    ...    Preencha o formulário abaixo para enviar uma mensagem.
+    Click On Form Modal Send Button
+    Check If Toast Notification Is Visible    title=Campos obrigatórios    description=Preencha todos os campos
+
+    Input Values On Form Modal    ${name}    ${email}    ${mensagem}
+    Click On Form Modal Send Button
+    Check If Toast Notification Is Visible    title=Formulário enviado    description=Dados salvos com sucesso!
+
+Should Be Dismissed Alert After Secounds
+    [Tags]    alert    dynamic
+    Open Dinamic Alert    Este alerta desaparecerá automaticamente em 5 segundos
+    Wait Until Alert Is Dismissed    Este alerta desaparecerá automaticamente em 5 segundos    7s
