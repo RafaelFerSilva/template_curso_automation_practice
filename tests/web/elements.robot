@@ -74,6 +74,7 @@ Should Be Possible Move Slider
     Set Slider Value    25
 
 Should Be Possible Validade Progress Bar
+    [Tags]    progress_bar
     Click To Start Progress Bar
     Wait For Progress Bar To Reach Value    100
 

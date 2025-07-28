@@ -206,3 +206,25 @@ Generate Xpath By Attribute
     ${attr_name}    ${attr_value}=    Split String    ${attr_pair}    =
     ${xpath_locator}=    Set Variable    xpath=${html_element}\[@${attr_name}="${attr_value}"]${xpath_extension}
     RETURN    ${xpath_locator}
+
+Get Translate Value
+    [Arguments]    ${element}
+
+    Sleep    2s
+
+    ${style}=    Get Attribute    ${element}    style
+    Log    Style completo: ${style}
+
+    # Verifica se contém translateX
+    Should Contain    ${style}    translateX(
+
+    # Extrai o valor usando split
+    @{parts}=    Split String    ${style}    translateX(
+    ${right_part}=    Get From List    ${parts}    1
+    @{value_parts}=    Split String    ${right_part}    %
+    ${translate_str}=    Get From List    ${value_parts}    0
+    ${translate_str}=    Replace String    ${translate_str}    )    ${EMPTY}
+    ${translate}=    Convert To Number    ${translate_str}
+
+    Log    Translate value: ${translate}
+    RETURN    ${translate}

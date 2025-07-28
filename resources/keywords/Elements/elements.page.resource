@@ -402,21 +402,7 @@ Progress Bar Display Should Show
 Progress Bar Should Be
     [Arguments]    ${expected_percent}
 
-    Sleep    2s
-
-    ${style}=    Get Attribute    ${PROGRESS_BAR_INDICATOR}    style
-    Log    Style completo: ${style}
-
-    # Verifica se contém translateX
-    Should Contain    ${style}    translateX(
-
-    # Extrai o valor usando split
-    @{parts}=    Split String    ${style}    translateX(
-    ${right_part}=    Get From List    ${parts}    1
-    @{value_parts}=    Split String    ${right_part}    %
-    ${translate_str}=    Get From List    ${value_parts}    0
-    ${translate_str}=    Replace String    ${translate_str}    )    ${EMPTY}
-    ${translate}=    Convert To Number    ${translate_str}
+    ${translate}=    Get Translate Value    ${PROGRESS_BAR_INDICATOR}
 
     ${progress}=    Evaluate    100 + ${translate}
     ${progress}=    Convert To Integer    ${progress}
