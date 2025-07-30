@@ -43,3 +43,14 @@ Perform Carousel Auto Play And Stop On Item
             RETURN
         END
     END
+
+Update Slider Main To Value
+    [Arguments]    ${value}    ${tolerance}=2
+
+    Set Slider Value    ${SLIDER_MAIN_THUMB}    ${SLIDER_MAIN_TRACK}    ${value}    ${tolerance}
+    Check Value On Slider Main Display    ${value}
+
+Update Slider Volume To Value
+    [Arguments]    ${value}
+    Set Slider Value    ${SLIDER_VOLUME_THUMB}    ${SLIDER_VOLUME_TRACK}    ${value}
+    Check Valude On Slider Volume Display    ${value}
