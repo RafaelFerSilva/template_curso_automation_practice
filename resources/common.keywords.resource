@@ -228,3 +228,196 @@ Get Translate Value
 
     Log    Translate value: ${translate}
     RETURN    ${translate}
+
+Verify Slider Value
+    [Documentation]    Verifica se o slider está no valor esperado
+    [Arguments]    ${locator_slider_trumb}    ${expected_value}    ${tolerance}=2
+
+    # Aguarda um pouco para o valor se estabilizar
+    Sleep    0.2s
+
+    ${final_value}=    Get Attribute    ${locator_slider_trumb}    aria-valuenow
+    ${final_value}=    Convert To Number    ${final_value}
+    ${difference}=    Evaluate    abs(${final_value} - ${expected_value})
+
+    Log    Verificação - Valor final: ${final_value}, Esperado: ${expected_value}, Diferença: ${difference}
+
+    Should Be True
+    ...    ${difference} <= ${tolerance}
+    ...    msg=Slider não chegou no valor esperado. Final: ${final_value}, Esperado: ${expected_value}, Diferença: ${difference}
+
+Move Slider With Drag
+    [Documentation]    Move o slider usando drag and drop no thumb
+    [Arguments]
+    ...    ${locator_slider_trumb}
+    ...    ${locator_slider_track}
+    ...    ${desired_value}
+    ...    ${current_value}
+    ...    ${min_value}
+    ...    ${max_value}
+    ...    ${tolerance}
+
+    # Obtém as dimensões da track para calcular o movimento
+    ${track_box}=    Get Bounding Box    ${locator_slider_track}
+    ${track_width}=    Set Variable    ${track_box}[width]
+
+    # Obtém a posição atual do thumb
+    ${thumb_box}=    Get Bounding Box    ${locator_slider_trumb}
+
+    # Calcula o offset necessário
+    ${range_total}=    Evaluate    ${max_value} - ${min_value}
+    ${current_percent}=    Evaluate    (${current_value} - ${min_value}) / ${range_total}
+    ${desired_percent}=    Evaluate    (${desired_value} - ${min_value}) / ${range_total}
+
+    ${current_pixel}=    Evaluate    ${track_width} * ${current_percent}
+    ${desired_pixel}=    Evaluate    ${track_width} * ${desired_percent}
+    ${offset}=    Evaluate    int(${desired_pixel} - ${current_pixel})
+
+    Log    Drag Info - Track Width: ${track_width}, Offset: ${offset}px
+
+    # Primeiro, foca no thumb para garantir que está ativo
+    Scroll To Element    ${locator_slider_trumb}
+    Focus    ${locator_slider_trumb}
+    Sleep    0.1s
+
+    # Executa o drag and drop
+    Drag And Drop Relative To    ${locator_slider_trumb}    ${offset}    0
+    Sleep    0.5s
+
+    # Verifica se chegou no valor desejado
+    Verify Slider Value    ${locator_slider_trumb}    ${desired_value}    ${tolerance}
+
+Move Slider With Keys
+    [Documentation]    Move o slider usando teclas de seta (mais preciso para ajustes finos)
+    [Arguments]    ${locator_slider_trumb}    ${desired_value}    ${current_value}    ${tolerance}=1
+
+    # Foca no slider thumb
+    Scroll To Element    ${locator_slider_trumb}
+    Focus    ${locator_slider_trumb}
+    Sleep    0.1s
+
+    ${difference}=    Evaluate    ${desired_value} - ${current_value}
+    ${steps}=    Evaluate    abs(int(${difference}))
+
+    IF    ${difference} > 0
+        ${key}=    Set Variable    ArrowRight
+        Log    Movendo ${steps} passos para a direita
+    ELSE
+        ${key}=    Set Variable    ArrowLeft
+        Log    Movendo ${steps} passos para a esquerda
+    END
+
+    # Move passo a passo
+    FOR    ${i}    IN RANGE    ${steps}
+        Keyboard Key    press    ${key}
+        Sleep    0.05s
+
+        # Verifica se já chegou no valor (otimização)
+        ${current}=    Get Attribute    ${locator_slider_trumb}    aria-valuenow
+        ${current}=    Convert To Number    ${current}
+        ${diff}=    Evaluate    abs(${current} - ${desired_value})
+        IF    ${diff} < ${tolerance}
+            Log    Valor alcançado antecipadamente no passo ${i+1}
+            BREAK
+        END
+    END
+
+    Sleep    0.3s
+    Verify Slider Value    ${desired_value}    ${tolerance}
+
+Get Slider Debug Info
+    [Documentation]    Retorna informações de debug do slider
+    [Arguments]    ${locator_slider_trumb}    ${locator_slider_track}
+
+    ${current_value}=    Get Attribute    ${locator_slider_trumb}    aria-valuenow
+    ${min_value}=    Get Attribute    ${locator_slider_trumb}    aria-valuemin
+    ${max_value}=    Get Attribute    ${locator_slider_trumb}    aria-valuemax
+
+    ${track_box}=    Get Bounding Box    ${locator_slider_track}
+    ${thumb_box}=    Get Bounding Box    ${locator_slider_trumb}
+
+    Log    === SLIDER DEBUG INFO ===
+    Log    Current Value: ${current_value}
+    Log    Min Value: ${min_value}
+    Log    Max Value: ${max_value}
+    Log    Track Box: ${track_box}
+    Log    Thumb Box: ${thumb_box}
+    Log    ========================
+
+Set Slider Value
+    [Documentation]    Define o valor do slider de forma dinâmica
+    ...    Calcula a posição atual e move para o valor desejado
+    [Arguments]    ${locator_slider_trumb}    ${locator_slider_track}    ${desired_value}    ${tolerance}=2
+
+    # Aguarda o elemento estar visível e interagível
+    Wait For Elements State    ${locator_slider_trumb}    visible    timeout=10s
+    Wait For Elements State    ${locator_slider_trumb}    stable    timeout=5s
+
+    # Obtém os valores atuais do slider
+    ${current_value}=    Get Attribute    ${locator_slider_trumb}    aria-valuenow
+    ${min_value}=    Get Attribute    ${locator_slider_trumb}    aria-valuemin
+    ${max_value}=    Get Attribute    ${locator_slider_trumb}    aria-valuemax
+
+    # Converte para números
+    ${current_value}=    Convert To Number    ${current_value}
+    ${min_value}=    Convert To Number    ${min_value}
+    ${max_value}=    Convert To Number    ${max_value}
+    ${desired_value}=    Convert To Number    ${desired_value}
+
+    Log    Slider Info - Current: ${current_value}, Min: ${min_value}, Max: ${max_value}, Desired: ${desired_value}
+
+    # Validações
+    Should Be True    ${desired_value} >= ${min_value}
+    ...    msg=Valor desejado (${desired_value}) menor que o mínimo (${min_value})
+    Should Be True    ${desired_value} <= ${max_value}
+    ...    msg=Valor desejado (${desired_value}) maior que o máximo (${max_value})
+
+    ${difference}=    Evaluate    abs(${desired_value} - ${current_value})
+    IF    ${difference} <= ${tolerance}
+        Log    Slider já está no valor desejado (diferença: ${difference})
+        RETURN
+    END
+
+    # Estratégia 1: Drag and Drop no thumb
+    ${success}=    Run Keyword And Return Status
+    ...    Move Slider With Drag
+    ...    ${locator_slider_trumb}
+    ...    ${locator_slider_track}
+    ...    ${desired_value}
+    ...    ${current_value}
+    ...    ${min_value}
+    ...    ${max_value}
+    ...    ${tolerance}
+
+    IF    ${success}    RETURN
+
+    # Estratégia 2: Teclas de seta
+    ${success}=    Run Keyword And Return Status
+    ...    Move Slider With Keys    ${desired_value}    ${current_value}    ${tolerance}
+
+    Get Slider Debug Info    ${locator_slider_trumb}    ${locator_slider_track}
+
+    IF    not ${success}
+        Take Screenshot
+        Fail    Não foi possível mover o slider para o valor desejado: ${desired_value}
+    END
+
+Progress Bar Should Be
+    [Arguments]    ${locator_progress_indicator}    ${expected_percent}
+
+    Scroll To Element    ${locator_progress_indicator}
+    ${translate}=    Get Translate Value    ${locator_progress_indicator}
+
+    ${progress}=    Evaluate    100 + ${translate}
+    ${progress}=    Convert To Integer    ${progress}
+    Log    TranslateX: ${translate}%, Progresso calculado: ${progress}%, Esperado: ${expected_percent}%
+
+    Should Be True    ${progress} == ${expected_percent}
+    ...    msg=Barra em ${progress}%, esperado ${expected_percent}%
+    Take Screenshot
+
+Wait For Progress Bar To Reach Value
+    [Documentation]    Aguarda até a progress bar atingir o valor desejado ou timeout
+    [Arguments]    ${locator_progress_indicator}    ${expected_value}    ${timeout}=10s
+    Wait Until Keyword Succeeds    ${timeout}    0.5s
+    ...    Progress Bar Should Be    ${locator_progress_indicator}    ${expected_value}

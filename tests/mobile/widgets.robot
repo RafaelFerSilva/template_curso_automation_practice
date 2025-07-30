@@ -27,3 +27,26 @@ Should Be Possible Move Carousel With Auto Play
 
 Should Be Possible Stop Carousel Auto Play
     Perform Carousel Auto Play And Stop On Item    3    Terceiro slide do carrossel
+
+Should Be Possible Move Main Slider
+    [Tags]    slider    slider_main
+    Update Slider Main To Value    75
+    Update Slider Main To Value    25
+
+Should Be Possible Move Volume Slider
+    [Tags]    slider    slider_volume
+    Update Slider Volume To Value    50
+    Update Slider Volume To Value    100
+
+Should Be Possible Mute Volume Slider
+    [Tags]    slider    slider_volume    mute
+    Update Slider Volume To Value    20
+    Click On Mute Button To Volume
+    Check Valude On Slider Volume Display    0
+    Click On Mute Button To Volume
+    Check Valude On Slider Volume Display    20
+
+Should Be Possible Validade Main Progress Bar
+    [Tags]    progress_bar
+    Click On Button To Start Progress Bar
+    Wait For Progress Bar To Reach Value    ${PROGRESS_MAIN_INDICATOR}    100

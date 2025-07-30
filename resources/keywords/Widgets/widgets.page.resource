@@ -113,3 +113,19 @@ Get Carousel Dot Quantity
     [Documentation]    Retrieves the total number of dots in the carousel.
     ${dot_quantity}=    Get Element Count    ${CAROUSEL_DOTS}
     RETURN    ${dot_quantity}
+
+Click On Button To Start Progress Bar
+    Click    ${BTN_PRIMARY_START_PROGRESS}
+
+Check Value On Slider Main Display
+    [Arguments]    ${expected_value}    ${tolerance}=2
+
+    ${value}=    Get Text    ${BADGE_SLIDER_DISPLAY}
+    IF    abs(${expected_value} - ${value}) <= ${tolerance}    RETURN    True
+
+Check Valude On Slider Volume Display
+    [Arguments]    ${expected_value}
+    Get Text    ${BADGE_VOLUME_DISPLAY}    ==    ${expected_value}
+
+Click On Mute Button To Volume
+    Click    ${BTN_EDIT_MUTE}
