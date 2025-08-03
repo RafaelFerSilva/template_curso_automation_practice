@@ -43,7 +43,7 @@ jobs:
         run: rfbrowser init
 
       - name: Run the tests
-        run: pabot --processes 4 -d ./reports --output output.xml -v HEADLESS:true -v PIPELINE:true --nostatusrc ./tests
+        run: invoke test-pr
       
       - name: Validate Test Coverage
         if: always()

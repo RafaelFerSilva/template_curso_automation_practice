@@ -36,13 +36,13 @@ Should Be Possible Clean Form
     Check If Form Is Empty
 
 Should Display Error Messages For Mandatory Fields
-    [Tags]    mandatory-fields
+    [Tags]    mandatory-fields    smoke
     Check To Send Payment Information
     Click On Form Submit Button
     Validate Mandatory Fields Error Messages
 
 Should Display Error Messages For Format Fields
-    [Tags]    format-fields
+    [Tags]    format-fields    smoke
     [Setup]    Run Keywords    Open The Test Automation Practice Site    is_mobile=True    AND
     ...    Click On Card And Validate Navigation    FORMS    AND
     ...    Create A Faker User With Invalid Data

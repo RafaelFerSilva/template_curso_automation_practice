@@ -11,10 +11,12 @@ Test Tags       web    widgets    widgets_web
 
 *** Test Cases ***
 Should Be Possible Move Carousel Item
+    [Tags]    web    carousel    smoke
     Mouve Carosel And Validate Item    3    Terceiro slide do carrossel
     Mouve Carosel And Validate Item    1    Primeiro slide do carrossel
 
 Should Be Possible Reset Carousel
+    [Tags]    web    carousel    reset    smoke
     Mouve Carosel And Validate Item    3    Terceiro slide do carrossel
     Reset Carousel To Default State
 
@@ -34,7 +36,7 @@ Should Be Possible Move Main Slider
     Update Slider Main To Value    25
 
 Should Be Possible Move Volume Slider
-    [Tags]    slider    slider_volume
+    [Tags]    slider    slider_volume    smoke
     Update Slider Volume To Value    50
     Update Slider Volume To Value    100
 
@@ -52,7 +54,7 @@ Should Be Possible Validade Main Progress Bar
     Wait For Progress Bar To Reach Value    ${PROGRESS_MAIN_INDICATOR}    100
 
 It Must Be Possible To Move Items Between Zones
-    [Tags]    drag_drop
+    [Tags]    drag_drop    smoke
     Move A List Items To Drop Zone    1    4
     Move Item Of Drop Zone To Sort Zone    1
 
@@ -63,12 +65,12 @@ It Must Be Possible To Move Items Between Zones
     Validate Dropped Items Order    4
 
 It Must Be Possible Re-Arrange Items In Sortable Zone
-    [Tags]    drag_drop
+    [Tags]    drag_drop    smoke
     Move A List Items To Drop Zone    1    2    3    4
     Move A List Items To Sort Zone    3    1    4    2
 
 It Must Be Possible Re-Arrange Items In Dropped Zone
-    [Tags]    drag_drop
+    [Tags]    drag_drop    smoke
     Move A List Items To Drop Zone    1    3    4    2
 
 Should Be Possible Show And Hide Dinamic element
