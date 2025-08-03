@@ -30,6 +30,7 @@ Should Be Possible To Show And Hide Dynamic Element
     Click On Button To Hide Dynamic Element And Check If Dynamic Element Is Not Visible
 
 Should Be Possible Disabled And Enabled Elements Form
+    [Tags]    form    elements    smoke
     Check Elements Form States
     Validate Check Boxe Group States
     Validate Radio Button Group States
@@ -70,12 +71,12 @@ Should Be Possíble Select Radio Buttonss
     Validate Radio Button Data State    2    unchecked
 
 Should Be Possible Move Slider
-    [Tags]    slider
+    [Tags]    slider    smoke
     Set Slider Value    ${SLIDER_TRUMB}    ${SLIDER_TRACK}    75
     Set Slider Value    ${SLIDER_TRUMB}    ${SLIDER_TRACK}    25
 
 Should Be Possible Validade Progress Bar
-    [Tags]    progress_bar
+    [Tags]    progress_bar    smoke
     Click To Start Progress Bar
     Wait For Progress Bar To Reach Value    ${PROGRESS_BAR_INDICATOR}    100
     Progress Bar Display Should Show    100%

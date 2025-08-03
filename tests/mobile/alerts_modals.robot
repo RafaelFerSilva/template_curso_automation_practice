@@ -14,6 +14,7 @@ Validate Static Alerts
     Valida If All Static Alerts Are Present
 
 Should Display Toast Notifications
+    [Tags]    smoke
     Open Success Toast Notification
     Close Toast Notification    Sucesso!
 
@@ -122,7 +123,7 @@ Should Be Possible Execute Temp Alert Modal
     ...    state=hidden
 
 Should Be Possible Send Form Modal Information
-    [Tags]    form_modal    modal
+    [Tags]    form_modal    modal    smoke
     ${name}=    FakerLibrary.Name
     ${email}=    FakerLibrary.Email
     ${mensagem}=    FakerLibrary.Catch Phrase
@@ -151,7 +152,7 @@ Should Be Possible Cancel Form Modal
     Click On Form Modal Cancel Button
 
 Should Not Be Possible Send Modal Without Mandatory Information
-    [Tags]    form_modal    modal
+    [Tags]    form_modal    modal    smoke
     ${name}=    FakerLibrary.Name
     ${email}=    FakerLibrary.Email
     ${mensagem}=    FakerLibrary.Catch Phrase
