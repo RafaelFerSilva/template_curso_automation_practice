@@ -78,3 +78,25 @@ Move A List Items To Drop Zone
         Move Item Of Sort Zone To Drop Zone    ${item}
     END
     Validate Dropped Items Order    @{items}
+
+Hide Dinamic Element
+    Click On Visibility Controll Button    Ocultar
+    Check Dinâmic Element    Este elemento pode ser ocultado/mostrado dinamicamente    hidden
+    Take Screenshot
+
+Show Dinamic Element
+    Click On Visibility Controll Button    Mostrar
+    Check Dinâmic Element    Este elemento pode ser ocultado/mostrado dinamicamente    visible
+    Take Screenshot
+
+Expand Dynamic Element
+    Click On Expanded Controll Button    Expandir
+    Check Expanded Content    Conteúdo expandido que só aparece quando necessário.
+    Check Expanded Content    Este tipo de elemento é comum em accordions e seções colapsíveis.
+    Take Screenshot
+
+Retract Dynamic Element
+    Click On Expanded Controll Button    Recolher
+    Check Expanded Content    Conteúdo expandido que só aparece quando necessário.    0
+    Check Expanded Content    Este tipo de elemento é comum em accordions e seções colapsíveis.    0
+    Take Screenshot
