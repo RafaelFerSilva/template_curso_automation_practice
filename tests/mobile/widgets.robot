@@ -80,3 +80,13 @@ Should Be Possible Expand And Retract Dynamic Element
     [Tags]    expand_retract
     Expand Dynamic Element
     Retract Dynamic Element
+
+Should Be Possible Select Tabs
+    [Tags]    tabs
+    Validate Active Tab
+    ...    1
+    ...    Conteúdo da Aba 1
+    ...    Esta é a primeira aba com conteúdo específico para testes de automação.
+    Select Tab    2    Conteúdo da Aba 2    Segunda aba com informações diferentes e elementos únicos.
+    Select Tab    3    Conteúdo da Aba 3    Terceira aba para completar o conjunto de testes de navegação.
+    Select Tab    1    Conteúdo da Aba 1    Esta é a primeira aba com conteúdo específico para testes de automação.

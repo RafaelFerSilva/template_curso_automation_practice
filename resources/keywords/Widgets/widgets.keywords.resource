@@ -100,3 +100,8 @@ Retract Dynamic Element
     Check Expanded Content    Conteúdo expandido que só aparece quando necessário.    0
     Check Expanded Content    Este tipo de elemento é comum em accordions e seções colapsíveis.    0
     Take Screenshot
+
+Select Tab
+    [Arguments]    ${tab_index}    ${title}    ${sub_title}
+    Click On Tab    ${tab_index}
+    Validate Active Tab    ${tab_index}    ${title}    ${sub_title}
