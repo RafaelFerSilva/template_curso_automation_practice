@@ -39,3 +39,6 @@ ${DYNAMIC_ELEMENT}=                 data-testid=stats-value-dynamic-element
 
 ${BTN_TOGGLE_EXPAND}=               data-testid=btn-edit-toggle-expand
 ${EXPANDABLE_CONTENT}=              div[data-testid="stats-value-expandable-content"].opacity-$$ p
+
+${TABS_BTN}=                        [data-testid="tabs-trigger-tab-$$"]
+${TAB_CONTENT}=                     [data-testid="tabs-content-tab-$$"]

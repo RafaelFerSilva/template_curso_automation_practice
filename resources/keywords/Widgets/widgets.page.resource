@@ -192,3 +192,14 @@ Check Expanded Content
     [Arguments]    ${expected_content}    ${opacity}=100
     ${element}=    Replace String    ${EXPANDABLE_CONTENT}    $$    ${opacity}
     Wait For Elements State    ${element} >> text=${expected_content}    visible
+
+Click On Tab
+    [Arguments]    ${tab_index}
+    ${element}=    Replace String    ${TABS_BTN}    $$    ${tab_index}
+    Click    ${element}
+
+Validate Active Tab
+    [Arguments]    ${tab_index}    ${title}    ${sub_title}
+    ${element}=    Replace String    ${TAB_CONTENT}    $$    ${tab_index}
+    Wait For Elements State    ${element}\[data-state="active"] >> h3 >> text=${title}    visible
+    Wait For Elements State    ${element}\[data-state="active"] >> p >> text=${sub_title}    visible
