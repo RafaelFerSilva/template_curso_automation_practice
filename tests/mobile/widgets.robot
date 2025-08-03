@@ -50,3 +50,23 @@ Should Be Possible Validade Main Progress Bar
     [Tags]    progress_bar
     Click On Button To Start Progress Bar
     Wait For Progress Bar To Reach Value    ${PROGRESS_MAIN_INDICATOR}    100
+
+It Must Be Possible To Move Items Between Zones
+    [Tags]    drag_drop
+    Move A List Items To Drop Zone    1    4
+    Move Item Of Drop Zone To Sort Zone    1
+
+    Validate Sortable Zone Items Quantity    3
+    Validate Dropped Zone Items Quantity    1
+
+    Validate Sortable Items Order    2    3    1
+    Validate Dropped Items Order    4
+
+It Must Be Possible Re-Arrange Items In Sortable Zone
+    [Tags]    drag_drop
+    Move A List Items To Drop Zone    1    2    3    4
+    Move A List Items To Sort Zone    3    1    4    2
+
+It Must Be Possible Re-Arrange Items In Dropped Zone
+    [Tags]    drag_drop
+    Move A List Items To Drop Zone    1    3    4    2

@@ -24,3 +24,12 @@ ${SLIDER_VOLUME_THUMB}=             data-testid=slider-volume-thumb
 ${BTN_PRIMARY_START_PROGRESS}=      data-testid=btn-primary-start-progress
 ${PROGRESS_MAIN}=                   data-testid=progress-main
 ${PROGRESS_MAIN_INDICATOR}=         data-testid=progress-main-indicator
+
+${SORTABLE_ZONE}=                   [data-testid="stats-value-sortable-zone"]
+${SORTABLE_ITEM}=                   data-testid=stats-value-sortable-item-
+
+${DROP_ZONE}=                       [data-testid="stats-value-drop-zone"]
+${DROPPED_ITEM}=                    data-testid=stats-value-dropped-item-
+
+${DROPPED_DRAGGABLE_ITEM}=          ${DROP_ZONE} >> div[draggable="true"]
+${SORTED_DRAGGABLE_ITEM}=           ${SORTABLE_ZONE} >> div[draggable="true"]

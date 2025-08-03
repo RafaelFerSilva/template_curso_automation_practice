@@ -129,3 +129,49 @@ Check Valude On Slider Volume Display
 
 Click On Mute Button To Volume
     Click    ${BTN_EDIT_MUTE}
+
+Drag And Drop Item To Drop Zone
+    [Arguments]    ${source_item}    ${target_zone}=${DROP_ZONE}
+    Scroll To Element    ${SORTABLE_ZONE}
+    Drag And Drop    ${SORTABLE_ITEM}${source_item}    ${target_zone}
+
+Validate Item In Sortable Zone
+    [Arguments]    ${source_item}
+    Wait For Elements State    ${SORTABLE_ITEM}${source_item}    visible
+
+Drag And Drop Item To Sortable Zone
+    [Arguments]    ${source_item}    ${target_zone}=${SORTABLE_ZONE}
+    Scroll To Element    ${DROP_ZONE}
+    Drag And Drop    ${DROPPED_ITEM}${source_item}    ${target_zone}
+
+Validate Item In Drop Zone
+    [Arguments]    ${source_item}    ${state}=visible
+    Wait For Elements State    ${DROPPED_ITEM}${source_item}    ${state}
+
+Validate Sortable Zone Items Quantity
+    [Arguments]    ${expected_value}
+    ${value}=    Get Element Count    ${SORTED_DRAGGABLE_ITEM}
+    Should Be Equal As Strings    ${value}    ${expected_value}
+
+Validate Dropped Zone Items Quantity
+    [Arguments]    ${expected_value}
+    ${value}=    Get Element Count    ${DROPPED_DRAGGABLE_ITEM}
+    Should Be Equal As Strings    ${value}    ${expected_value}
+
+Validate Sortable Items Order
+    [Arguments]    @{expected_order}
+
+    ${elements}=    Get Elements    ${SORTED_DRAGGABLE_ITEM}
+
+    FOR    ${index}    ${element}    IN ENUMERATE    @{expected_order}
+        Wait For Elements State    ${elements}[${index}] >> text=Item ${element}    visible
+    END
+
+Validate Dropped Items Order
+    [Arguments]    @{expected_order}
+
+    ${elements}=    Get Elements    ${DROPPED_DRAGGABLE_ITEM}
+
+    FOR    ${index}    ${element}    IN ENUMERATE    @{expected_order}
+        Wait For Elements State    ${elements}[${index}] >> text=Item ${element}    visible
+    END

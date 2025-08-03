@@ -54,3 +54,27 @@ Update Slider Volume To Value
     [Arguments]    ${value}
     Set Slider Value    ${SLIDER_VOLUME_THUMB}    ${SLIDER_VOLUME_TRACK}    ${value}
     Check Valude On Slider Volume Display    ${value}
+
+Move Item Of Sort Zone To Drop Zone
+    [Arguments]    ${source_item}
+    Drag And Drop Item To Drop Zone    ${source_item}
+    Validate Item In Drop Zone    ${source_item}
+
+Move Item Of Drop Zone To Sort Zone
+    [Arguments]    ${source_item}
+    Drag And Drop Item To Sortable Zone    ${source_item}
+    Validate Item In Sortable Zone    ${source_item}
+
+Move A List Items To Sort Zone
+    [Arguments]    @{items}
+    FOR    ${item}    IN    @{items}
+        Move Item Of Drop Zone To Sort Zone    ${item}
+    END
+    Validate Sortable Items Order    @{items}
+
+Move A List Items To Drop Zone
+    [Arguments]    @{items}
+    FOR    ${item}    IN    @{items}
+        Move Item Of Sort Zone To Drop Zone    ${item}
+    END
+    Validate Dropped Items Order    @{items}
