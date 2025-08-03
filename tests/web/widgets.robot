@@ -70,3 +70,13 @@ It Must Be Possible Re-Arrange Items In Sortable Zone
 It Must Be Possible Re-Arrange Items In Dropped Zone
     [Tags]    drag_drop
     Move A List Items To Drop Zone    1    3    4    2
+
+Should Be Possible Show And Hide Dinamic element
+    [Tags]    visibility
+    Hide Dinamic Element
+    Show Dinamic Element
+
+Should Be Possible Expand And Retract Dynamic Element
+    [Tags]    expand_retract
+    Expand Dynamic Element
+    Retract Dynamic Element

@@ -33,3 +33,9 @@ ${DROPPED_ITEM}=                    data-testid=stats-value-dropped-item-
 
 ${DROPPED_DRAGGABLE_ITEM}=          ${DROP_ZONE} >> div[draggable="true"]
 ${SORTED_DRAGGABLE_ITEM}=           ${SORTABLE_ZONE} >> div[draggable="true"]
+
+${BTN_EDIT_TOGGLE_VISIBILITY}=      data-testid=btn-edit-toggle-visibility
+${DYNAMIC_ELEMENT}=                 data-testid=stats-value-dynamic-element
+
+${BTN_TOGGLE_EXPAND}=               data-testid=btn-edit-toggle-expand
+${EXPANDABLE_CONTENT}=              div[data-testid="stats-value-expandable-content"].opacity-$$ p

@@ -175,3 +175,20 @@ Validate Dropped Items Order
     FOR    ${index}    ${element}    IN ENUMERATE    @{expected_order}
         Wait For Elements State    ${elements}[${index}] >> text=Item ${element}    visible
     END
+
+Click On Visibility Controll Button
+    [Arguments]    ${expected_text}
+    Click    ${BTN_EDIT_TOGGLE_VISIBILITY} >> text=${expected_text}
+
+Check Dinâmic Element
+    [Arguments]    ${expectd_text}    ${state}=visible
+    Wait For Elements State    ${DYNAMIC_ELEMENT} >> text=${expectd_text}    ${state}
+
+Click On Expanded Controll Button
+    [Arguments]    ${expected_text}
+    Click    ${BTN_TOGGLE_EXPAND} >> text=${expected_text}
+
+Check Expanded Content
+    [Arguments]    ${expected_content}    ${opacity}=100
+    ${element}=    Replace String    ${EXPANDABLE_CONTENT}    $$    ${opacity}
+    Wait For Elements State    ${element} >> text=${expected_content}    visible
