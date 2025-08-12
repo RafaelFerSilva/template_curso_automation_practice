@@ -100,6 +100,12 @@ def test_debug(c, test_name, reports_dir=DEFAULT_REPORTS_DIR, tests_dir=DEFAULT_
     c.run(cmd)
 
 @task
+def test_robot_metrics(c, reports_dir=DEFAULT_REPORTS_DIR, tests_dir=DEFAULT_TESTS_DIR):
+    cmd = f"robotmetrics --input {reports_dir} --output output.xml --metrics-report-name index.html"
+    print(f"Executando: {cmd}")
+    c.run(cmd)
+
+@task
 def help_tasks(c):
     """Mostra exemplos de uso das tasks"""
     examples = """
