@@ -421,3 +421,25 @@ Wait For Progress Bar To Reach Value
     [Arguments]    ${locator_progress_indicator}    ${expected_value}    ${timeout}=10s
     Wait Until Keyword Succeeds    ${timeout}    0.5s
     ...    Progress Bar Should Be    ${locator_progress_indicator}    ${expected_value}
+
+String Replace
+    [Documentation]    Replaces occurrences of '$$' with corresponding strings.
+    ...
+    ...    Arguments:
+    ...    - template: String containing the '$$' markers to be replaced
+    ...    - replacement_strings: List of strings that will replace the '$$' markers
+    ...
+    ...    Returns:
+    ...    - String with replaced markers
+    ...
+    ...    Example:
+    ...    |    ${element}=    |    String Replace    |    ${template}    |    @{replace_strings} |
+    ...
+    ...    The *template* argument is a string that contains the $$ that we want to change to another string.
+    ...    The *replacement_strings* argument can be a list of strings that will be placed in place of the $$ in the template
+    [Arguments]    ${template}    @{replacement_strings}
+    FOR    ${string}    IN    @{replacement_strings}
+        ${string}=    Convert To String    ${string}
+        ${template}=    Replace String    ${template}    $$    ${string}    count=1
+    END
+    RETURN    ${template}

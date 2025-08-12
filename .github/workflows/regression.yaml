@@ -47,7 +47,7 @@ jobs:
       
       - name: Metrics
         if: always()
-        run: robotmetrics --input reports/ --output output.xml --metrics-report-name index.html
+        run: invoke test-robot-metrics
     
       - name: Upload Test Results Artifacts
         if: always()
