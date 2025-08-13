@@ -19,3 +19,8 @@ Check File Uploaded
     [Arguments]    ${file_name}
     ${element}=    Replace String    ${UPLOADED_FILE}    $$    ${file_name}
     Wait For Elements State    ${element}    visible
+
+Click On Button To Download File
+    [Arguments]    ${file_name}
+    ${file}=    Replace String    ${FILES_TO_DOWNLOAD}    $$    ${file_name}
+    Click    ${file}
