@@ -7,3 +7,5 @@ ${UPLOADED_FILE}=                       //p[contains(@data-testid, "stats-value-
 ${UPLOADED_FILE_BADGE}=                 ${UPLOADED_FILE}//div[contains(@data-testid,"badge-file-completed-")]
 ${BUTTON_TO_DOWNLOAD_UPLOADED_FILE}=    ${UPLOADED_FILE}//button[contains(@data-testid,"btn-edit-download-")]
 ${BUTTON_TO_REMOVE}                     ${UPLOADED_FILE}//button[contains(@btn-delete-remove-")]
+
+${FILES_TO_DOWNLOAD}=                   //button[text()="$$"]
