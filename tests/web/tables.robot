@@ -20,7 +20,7 @@ Check Default User Table Users
     Validate Table Rows Quantity    5
 
 Filter Table By User Name
-    [Tags]    filter    user
+    [Tags]    filter    user    smoke
     Input Value Search Field    Maria Santos
     Table Should Contain User    maria@email.com    Maria Santos    32    RH    4,500
     Validate Table Rows Quantity    1
@@ -42,7 +42,7 @@ Filter Table By Department
     Validate Table Rows Quantity    1
 
 Filter Table By Status
-    [Tags]    status
+    [Tags]    status    smoke
 
     Select Status Dropdown Item    Inativo
     Table Should Contain User    carlos@email.com    Carlos Oliveira    45    Financeiro    6,000    Inativo
