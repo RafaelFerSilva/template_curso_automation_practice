@@ -18,6 +18,7 @@ Set Mobile context
     ${device}=    Get Device    ${DEVICE}
     ${copy_new_context}=    Copy Dictionary    ${NEW_CONTEXT}    deepcopy=TRUE
     Set To Dictionary    ${copy_new_context}    &{device}
+    Set To Dictionary    ${copy_new_context}    baseURL    ${BASE_URL}
     New Context    &{copy_new_context}
 
 Config New Context
@@ -29,7 +30,9 @@ Config New Context
     IF    ${MOBILE}
         Set Mobile context
     ELSE
-        New Context    &{NEW_CONTEXT}
+        ${copy_new_context}=    Copy Dictionary    ${NEW_CONTEXT}    deepcopy=TRUE
+        Set To Dictionary    ${copy_new_context}    baseURL    ${BASE_URL}
+        New Context    &{copy_new_context}
     END
 
 Open The Application
