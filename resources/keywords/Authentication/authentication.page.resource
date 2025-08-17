@@ -36,3 +36,25 @@ Read Json And Return User By E-mail
     END
     RETURN    None
 
+Enter Value On Login E-mail Field
+    [Arguments]    ${value}
+    Type Text    ${INPUT_LOGIN_EMAIL}    ${value}
+    Get Text    ${INPUT_LOGIN_EMAIL}    ==    ${value}
+
+Enter Value On Login Password Field
+    [Arguments]    ${value}
+    Type Text    ${INPUT_LOGIN_PASSWORD}    ${value}
+    Get Text    ${INPUT_LOGIN_PASSWORD}    ==    ${value}
+
+Click On Login Submit Button
+    Click    ${BTN_SUBMIT_LOGIN}
+
+Check User Name In User Dashboard
+    [Arguments]    ${expected_user_name}
+    Wait For Elements State    ${CARD_USER_NAME} >> text=${expected_user_name}    visible
+
+Check Toast On Authentication
+    [Arguments]    ${title}    ${description}    ${timeout}=15
+    Scroll To Element    ${AUTH_LOGIN_TOAST_TITLE}
+    Wait For Elements State    ${AUTH_LOGIN_TOAST_TITLE} >> text=${title}    visible    ${timeout}
+    Wait For Elements State    ${AUTH_LOGIN_TOAST_DESCRIPTION} >> text=${description}    visible    ${timeout}
