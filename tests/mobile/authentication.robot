@@ -3,7 +3,7 @@ Resource        ${EXECDIR}/resources/common.keywords.resource
 Resource        ${EXECDIR}/resources/keywords/Home/home.keywords.resource
 Resource        ${EXECDIR}/resources/keywords/Authentication/authentication.keywords.resource
 
-Test Setup      Run Keywords    Open The Test Automation Practice Site    AND
+Test Setup      Run Keywords    Open The Test Automation Practice Site    ${True}    AND
 ...                 Click On Card And Validate Navigation    AUTH
 
 Test Tags       authentication
