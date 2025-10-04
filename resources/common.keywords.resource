@@ -446,3 +446,25 @@ String Replace
         ${template}=    Replace String    ${template}    $$    ${string}    count=1
     END
     RETURN    ${template}
+
+Create A Fake Product
+    ${name}=    FakerLibrary.Md 5
+    ${category}=    FakerLibrary.RandomElement    elements=["Eletrônicos", "Acessórios", "Monitores", "Periféricos"]
+    ${price}=    FakerLibrary.RandomNumber
+    ${stock}=    FakerLibrary.RandomNumber
+    ${brand}=    FakerLibrary.Company
+    ${rating}=    FakerLibrary.Random Element    elements=["0", "1", "2", "3", "4", "5"]
+    ${description}=    FakerLibrary.Text    max_nb_chars=200
+    ${availability}=    FakerLibrary.Random Element    elements=["checked", "unchecked"]
+
+    ${fake_product}=    Create Dictionary
+    ...    name=${name}
+    ...    category=${category}
+    ...    price=${price}
+    ...    stock=${stock}
+    ...    brand=${brand}
+    ...    rating=${rating}
+    ...    description=${description}
+    ...    availability=${availability}
+
+    RETURN    ${fake_product}
