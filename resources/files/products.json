@@ -1,0 +1,64 @@
+{
+    "products": [
+        {
+            "id": "1",
+            "name": "Notebook Dell",
+            "category": "Eletrônicos",
+            "price": 2500,
+            "stock": 15,
+            "description": "Notebook Dell Inspiron 15 3000",
+            "brand": "Dell",
+            "rating": 4.5,
+            "available": true,
+            "created": "2024-01-10"
+        },
+        {
+            "id": "2",
+            "name": "Mouse Logitech",
+            "category": "Acessórios",
+            "price": 89,
+            "stock": 45,
+            "description": "Mouse sem fio Logitech M280",
+            "brand": "Logitech",
+            "rating": 4.2,
+            "available": true,
+            "created": "2024-01-15"
+        },
+        {
+            "id": "3",
+            "name": "Teclado Mecânico",
+            "category": "Acessórios",
+            "price": 299,
+            "stock": 8,
+            "description": "Teclado mecânico RGB",
+            "brand": "HyperX",
+            "rating": 4.8,
+            "available": true,
+            "created": "2024-01-20"
+        },
+        {
+            "id": "4",
+            "name": "Monitor 24\"",
+            "category": "Monitores",
+            "price": 899,
+            "stock": 12,
+            "description": "Monitor LED 24 polegadas Full HD",
+            "brand": "Samsung",
+            "rating": 4.3,
+            "available": false,
+            "created": "2024-01-25"
+        },
+        {
+            "id": "5",
+            "name": "Webcam HD",
+            "category": "Acessórios",
+            "price": 199,
+            "stock": 25,
+            "description": "Webcam HD 1080p",
+            "brand": "Logitech",
+            "rating": 4,
+            "available": true,
+            "created": "2024-02-01"
+        }
+    ]
+}
