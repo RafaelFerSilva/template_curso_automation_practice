@@ -22,3 +22,15 @@ ${TABLE_KEY}=                       //div[contains(@data-testid, "stats-value-pr
 ${TABLE_TD_VALUES}=                 ${TABLE_KEY}//ancestor::tr//td[contains(@data-testid, "$$") and text()="$$"]
 ${TABLE_ITEM_STATUS}=               ${TABLE_KEY}//ancestor::tr//div[contains(@data-testid, "status") and text()="$$"]
 ${TABLE_ITEM_BUTTONS}=              ${TABLE_KEY}//ancestor::tr//button[contains(@data-testid, "$$")]
+
+&{UPDATE_PROD_FIELDS}=
+...                                 NAME=data-testid=input-edit-product-name
+...                                 CATEGORY=data-testid=select-edit-product-category
+...                                 PRICE=data-testid=input-edit-product-price
+...                                 STOCK=data-testid=input-edit-product-stock
+...                                 BRAND=data-testid=input-edit-product-brand
+...                                 RATING=data-testid=select-edit-product-rating
+...                                 DESCRIPTION=data-testid=textarea-edit-product-description
+
+${UPDATE_PROD_AVAILABLE_BUTTON}=    data-testid=switch-edit-product-available
+${UPDATE_PROD_SALVE_BUTTON}=        data-testid=btn-save-edit-product

@@ -20,7 +20,7 @@ Register Product
 
     Click On Button To Salve Product
 
-Check If Register Success Toast Was Visible
+Check If Toast Was Visible
     [Arguments]    ${title}    ${description}    ${state}=visible    ${timeout}=10s
     Check If Toast Notification Title Is Visible    ${title}    ${state}    ${timeout}
     Check If Toast Notification Description Is Visible    ${description}    ${state}    ${timeout}
@@ -40,3 +40,11 @@ Check If The Product Was Registered On Table
     Check Table Row Value    ${product}[name]    stock    ${product}[stock]
 
     Check Table Row Status    ${product}[name]    ${product}[availability]
+
+Register a random product
+    ${product}=    Create A Fake Product
+    Register Product    ${product}
+    Check If Toast Was Visible    Produto criado    ${product}[name] foi adicionado com sucesso.
+    Check If Toast Was Visible    Produto criado    ${product}[name] foi adicionado com sucesso.    hidden
+    Check If The Product Was Registered On Table    ${product}
+    RETURN    ${product}
