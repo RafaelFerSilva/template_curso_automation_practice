@@ -45,10 +45,10 @@ Select Rating
 
 Check Table Row Value
     [Documentation]    Verifies if the table row contains the expected product name and row value. Not use for product status
-    [Arguments]    ${product_name}    ${row_id}    ${row_value}
+    [Arguments]    ${product_name}    ${row_id}    ${row_value}    ${state}=visible
 
     ${element}=    String Replace    ${TABLE_TD_VALUES}    ${product_name}    ${row_id}    ${row_value}
-    Wait For Elements State    ${element}    visible
+    Wait For Elements State    ${element}    ${state}
 
 Check Table Row Status
     [Documentation]    Verifies if the table row contains the expected product status.

@@ -48,3 +48,11 @@ Register a random product
     Check If Toast Was Visible    Produto criado    ${product}[name] foi adicionado com sucesso.    hidden
     Check If The Product Was Registered On Table    ${product}
     RETURN    ${product}
+
+Confirm Deletion
+    [Arguments]    ${name}
+    Check If Delete Modal Is Visible    Confirmar exclusão    Tem certeza que deseja excluir ${name}? Esta ação não pode ser desfeita.
+    Click To Confirm Delete Modal
+    Check If Delete Modal Is Visible    Confirmar exclusão    Tem certeza que deseja excluir ${name}? Esta ação não pode ser desfeita.    hidden
+    Check If Toast Was Visible    Produto removido    ${name} foi removido com sucesso.
+

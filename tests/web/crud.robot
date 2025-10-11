@@ -28,3 +28,11 @@ Should Be Possible Update A Product
     Click On Button To Save Updated Product
     Check If Toast Was Visible    Produto atualizado    ${product}[name] foi atualizado com sucesso.
     Check If The Product Was Registered On Table    ${product}
+
+Should Be Possible Delete A Product
+    [Tags]    delete
+    ${product}=    Register a random product
+
+    Click On Table Row Button    ${product}[name]    delete
+    Confirm Deletion    ${product}[name]
+    Check Table Row Value    ${product}[name]    name    ${product}[name]    hidden
