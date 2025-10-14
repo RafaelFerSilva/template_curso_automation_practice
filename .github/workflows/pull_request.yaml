@@ -2,7 +2,7 @@ name: Pull Request CI
 
 on:
   pull_request:
-    branches: 
+    branches:
       - main
 
 jobs:
@@ -18,12 +18,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.17.0'
+          node-version: "22.17.0"
 
       - name: Cache pip
         uses: actions/cache@v4
@@ -39,12 +39,12 @@ jobs:
           pip install -U -r requirements.txt
           npx playwright install-deps
 
-      - name: Init Browser Library 
+      - name: Init Browser Library
         run: rfbrowser init
 
       - name: Run the tests
         run: invoke test-pr
-      
+
       - name: Validate Test Coverage
         if: always()
         id: test_coverage
@@ -52,13 +52,13 @@ jobs:
           python ./resources/libs/test_coverage_validator.py \
             ./reports/output.xml \
             --min-pass_rate 80 \
-            --output-dir ./reports/coverage || exit 1
+            --output-dir ./reports/pass_rate || exit 1
 
-      - name: Read Markdown Report  
+      - name: Read Markdown Report
         id: read_report
         if: always()
         run: |
-          report_file=$(ls ./reports/coverage/test_coverage_report_*.md | head -n 1)
+          report_file=$(ls ./reports/pass_rate/test_pass_rate_report_*.md | head -n 1)
           echo "report_path=$report_file" >> $GITHUB_OUTPUT
           cat $report_file
 
@@ -71,7 +71,7 @@ jobs:
             const fs = require('fs');
             const reportPath = '${{ steps.read_report.outputs.report_path }}';
             const reportContent = fs.readFileSync(reportPath, 'utf8');
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
