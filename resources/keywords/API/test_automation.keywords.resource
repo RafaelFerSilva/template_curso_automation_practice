@@ -112,4 +112,4 @@ Validate Create User Response Json Schema
 Get Registered User
     [Arguments]    ${user_id}    ${alias}=${API_ALIAS}   ${expected_status}=200
     ${user}=    GET On Session     alias=${alias}   url=/users/${user_id}    expected_status=${expected_status}
-    RETURN    ${user}
+    RETURN    ${user.json()}
