@@ -4,7 +4,7 @@ import io
 import pytz
 from datetime import datetime
 from robot.api import ExecutionResult
-import json
+import argparse
 
 # Force UTF-8 encoding
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -13,19 +13,19 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 # Set the timezone to Brazil/Sao Paulo
 brazil_tz = pytz.timezone('America/Sao_Paulo')
 
-def generate_markdown_report(result, min_coverage):
+def generate_markdown_report(result, min_pass_rate):
     """
-    Generates a test coverage report in Markdown format.
+    Generates a test pass_rate report in Markdown format.
 
     This function analyzes the test execution results and creates a detailed
-    Markdown report showing coverage statistics and suite breakdown.
+    Markdown report showing pass_rate statistics and suite breakdown.
 
     Args:
         result (ExecutionResult): Robot Framework test execution result object
-        min_coverage (float): Minimum required coverage percentage
+        min_pass_rate (float): Minimum required pass_rate percentage
 
     Returns:
-        str: Report in Markdown format with coverage statistics and suite details
+        str: Report in Markdown format with pass_rate statistics and suite details
 
     Example:
         | ${report}= | Generate Markdown Report | ${result} | 80.0 |
@@ -39,18 +39,18 @@ def generate_markdown_report(result, min_coverage):
     # Calculate percentage of passed tests
     pass_percentage = (passed_tests / total_tests) * 100
 
-    # Determine coverage status
-    coverage_status = "Passed ✅" if pass_percentage >= min_coverage else "Failed ❌"
+    # Determine pass_rate status
+    pass_rate_status = "Passed ✅" if pass_percentage >= min_pass_rate else "Failed ❌"
 
     # Create Markdown report
-    markdown_report = f"""## Test Coverage Report
+    markdown_report = f"""## Test pass_rate Report
 
 ### General Summary
 | Metric | Value |
 |--------|-------|
-| Coverage Status | {coverage_status} |
-| Minimum Required Coverage | {min_coverage}% |
-| Current Coverage | {pass_percentage:.2f}% |
+| Pass Rate Status | {pass_rate_status} |
+| Minimum Required Pass Rate | {min_pass_rate}% |
+| Current Pass Rate | {pass_percentage:.2f}% |
 
 ### Test Details
 | Test Type | Quantity |
@@ -61,7 +61,7 @@ def generate_markdown_report(result, min_coverage):
 | Skipped Tests | {skipped_tests} |
 
 ### Suite Breakdown
-| Suite | Total Tests | Passed Tests | Coverage |
+| Suite | Total Tests | Passed Tests | Pass Rate |
 |-------|-------------|--------------|----------|
 """
 
@@ -96,7 +96,7 @@ def save_markdown_report(report, output_dir):
     os.makedirs(output_dir, exist_ok=True)
 
     # Generate filename using Brazil timezone
-    filename = f"test_coverage_report_{datetime.now(brazil_tz).strftime('%Y%m%d_%H%M%S')}.md"
+    filename = f"test_pass_rate_report_{datetime.now(brazil_tz).strftime('%Y%m%d_%H%M%S')}.md"
     filepath = os.path.join(output_dir, filename)
 
     # Save file with UTF-8 encoding
@@ -107,30 +107,29 @@ def save_markdown_report(report, output_dir):
 
     return filepath
 
-def validate_test_coverage(
+def validate_test_pass_rate(
     output_file,
-    min_coverage=80,
-    output_dir='test_reports',
-    verbose=True
+    min_pass_rate=80,
+    output_dir='test_reports'
 ):
     """
-    Validates test coverage and generates a Markdown report.
+    Validates test pass_rate and generates a Markdown report.
 
     This function analyzes the Robot Framework output.xml file, calculates
-    test coverage, generates a report, and validates if the coverage meets
+    test pass_rate, generates a report, and validates if the pass_rate meets
     the minimum requirement.
 
     Args:
         output_file (str): Path to Robot Framework output.xml file
-        min_coverage (float, optional): Minimum required coverage percentage. Defaults to 80.
+        min_pass_rate (float, optional): Minimum required pass_rate percentage. Defaults to 80.
         output_dir (str, optional): Directory to save reports. Defaults to 'test_reports'.
         verbose (bool, optional): Enables detailed logging. Defaults to True.
 
     Raises:
-        AssertionError: If test coverage is below the specified minimum.
+        AssertionError: If test pass_rate is below the specified minimum.
 
     Example:
-        | Validate Test Coverage | output.xml | min_coverage=85 | output_dir=reports |
+        | Validate Test pass_rate | output.xml | min_pass_rate=85 | output_dir=reports |
     """
     try:
         # Load test execution result
@@ -142,48 +141,47 @@ def validate_test_coverage(
         pass_percentage = (passed_tests / total_tests) * 100
 
         # Generate Markdown report
-        markdown_report = generate_markdown_report(result, min_coverage)
+        markdown_report = generate_markdown_report(result, min_pass_rate)
 
         # Save Markdown report
         save_markdown_report(markdown_report, output_dir)
 
-        # Validate minimum coverage
-        if pass_percentage < min_coverage:
-            print("Test Coverage Failed")
+        # Validate minimum pass_rate
+        if pass_percentage < min_pass_rate:
+            print("Test pass_rate Failed")
             raise AssertionError(
-                f"Test coverage of {pass_percentage:.2f}% "
-                f"is below the required minimum of {min_coverage}%"
+                f"Test pass_rate of {pass_percentage:.2f}% "
+                f"is below the required minimum of {min_pass_rate}%"
             )
 
-        print(f"Test coverage passed: {pass_percentage:.2f}%")
+        print(f"Test pass_rate passed: {pass_percentage:.2f}%")
         sys.exit(0)
 
     except Exception as e:
-        print(f"Error in coverage validation: {e}")
+        print(f"Error in pass_rate validation: {e}")
         sys.exit(1)
 
 def main():
     """
     Main function for command-line execution.
 
-    This function parses command-line arguments and calls the validate_test_coverage
+    This function parses command-line arguments and calls the validate_test_pass_rate
     function with the provided parameters.
 
     Command-line arguments:
         output_file: Path to output.xml file
-        --min-coverage: Minimum coverage percentage (default: 80)
+        --min-pass_rate: Minimum pass_rate percentage (default: 80)
         --output-dir: Directory to save reports (default: 'test_reports')
         --quiet: Disable detailed logging
 
     Example usage:
-        python test_coverage_validator.py output.xml --min-coverage 85 --output-dir reports
+        python test_pass_rate_validator.py output.xml --min-pass_rate 85 --output-dir reports
     """
-    import argparse
 
-    parser = argparse.ArgumentParser(description='Test Coverage Validator')
+    parser = argparse.ArgumentParser(description='Test pass_rate Validator')
     parser.add_argument('output_file', help='Path to output.xml file')
-    parser.add_argument('--min-coverage', type=float, default=80,
-                        help='Minimum coverage percentage (default: 80)')
+    parser.add_argument('--min-pass_rate', type=float, default=80,
+                        help='Minimum pass_rate percentage (default: 80)')
     parser.add_argument('--output-dir', default='test_reports',
                         help='Directory to save reports')
     parser.add_argument('--quiet', action='store_true',
@@ -191,11 +189,10 @@ def main():
 
     args = parser.parse_args()
 
-    validate_test_coverage(
+    validate_test_pass_rate(
         args.output_file,
-        min_coverage=args.min_coverage,
-        output_dir=args.output_dir,
-        verbose=not args.quiet
+        min_pass_rate=args.min_pass_rate,
+        output_dir=args.output_dir
     )
 
 if __name__ == "__main__":

@@ -3,11 +3,15 @@ Library    RequestsLibrary
 Library    Collections
 Library    JSONLibrary
 Library    String
+Library    FakerLibrary
 
 *** Variables ***
 
 # String
 ${BASE_URL}=    https://test-automation-practice.com.br/api
+
+
+${API_ALIAS}=    api_session
 
 # Dictionay
 &{HEADERS}=    Content-Type=application/json    Accept=application/json
@@ -40,7 +44,7 @@ Validate If Response Is Not Empty
     Should Be True    ${len} > 0
 
 Validate User Object
-    [Arguments]    ${user}    ${expected_keys}
+    [Arguments]    ${user}    ${expected_keys}=${EXPECTED_USERS_KEYS}
 
     # Validar se todos os campos obrigatórios estão presentes
     FOR    ${key}    IN    @{expected_keys}
@@ -78,9 +82,34 @@ Validate Response Time
     ${elapsed_ms}=    Evaluate    ${response.elapsed.total_seconds()} * 1000
     Should Be True    ${elapsed_ms} < ${limit_time}
 
-Validate User Json Schema
+Validate Return All Users Json Schema
     [Arguments]    ${response_json}
 
     Validate Json By Schema File
     ...    json_object=${response_json}
     ...    path_to_schema=${EXECDIR}/resources/files/json_schemas/users.json
+
+Create Fake User Data
+    ${name}=    FakerLibrary.Name
+    ${email}=    FakerLibrary.Email
+    ${age}=    FakerLibrary.RandomInt    18    99
+    ${city}=    FakerLibrary.City
+    ${user}=    Create Dictionary    name=${name}    email=${email}    age=${age}    city=${city}
+    RETURN    ${user}
+
+Validate Create User Request Json Schema
+    [Arguments]    ${body}
+     Validate Json By Schema File
+     ...    json_object=${body}
+     ...    path_to_schema=${EXECDIR}/resources/files/json_schemas/create_user_request.json
+
+Validate Create User Response Json Schema
+    [Arguments]    ${response}
+    Validate Json By Schema File
+    ...    json_object=${response}
+    ...    path_to_schema=${EXECDIR}/resources/files/json_schemas/create_user_response.json
+
+Get Registered User
+    [Arguments]    ${user_id}    ${alias}=${API_ALIAS}   ${expected_status}=200
+    ${user}=    GET On Session     alias=${alias}   url=/users/${user_id}    expected_status=${expected_status}
+    RETURN    ${user}
