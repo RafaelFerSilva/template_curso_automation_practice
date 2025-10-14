@@ -51,7 +51,7 @@ jobs:
         run: |
           python ./resources/libs/test_coverage_validator.py \
             ./reports/output.xml \
-            --min-coverage 80 \
+            --min-pass_rate 80 \
             --output-dir ./reports/coverage || exit 1
 
       - name: Read Markdown Report  
