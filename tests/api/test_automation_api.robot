@@ -27,16 +27,46 @@ Should Be Possible Create a New User
     ${user}=    Create Fake User Data
 
     Validate Create User Request Json Schema    ${user}
-
     ${body}=    Convert JSON To String    ${user}
 
     ${response}=    POST On Session    ${API_ALIAS}    /users    ${body}
-    Log Many    ${response.json()}
-
     Validate Response Base Informations    ${response}    users    201    Created
     Validate Common Response Headers    ${response.headers}
     Validate If Response Is Not Empty    ${response}
     Validate User Object    ${response.json()}
     Validate Response Time    ${response}    1500
     Validate Create User Response Json Schema    ${response.json()}
+
+Should Be Possible Update A User
+    [Tags]    UpdateUser
+
+    ${user}=    Get Registered User    1
+
+    ${city}=    FakerLibrary.City
+    ${data}=    Create Dictionary  city=${city}
+    ${body}=    Convert JSON To String    ${data}
+    ${response}=    PUT On Session    ${API_ALIAS}    /users/${user}[id]   ${body}
+
+    Validate Response Base Informations    ${response}    users/${user}[id]    200    OK
+    Validate Common Response Headers    ${response.headers}
+    Validate If Response Is Not Empty    ${response}
+    Validate User Object    ${response.json()}
+    Validate Response Time    ${response}    1500
+
+    ${expected_user}=    Copy Dictionary    ${user}    deepcopy=True
+    ${expected_user}=    Set To Dictionary    ${expected_user}    city=${city}
+
+    Dictionaries Should Be Equal    ${response.json()}    ${expected_user}
+    Validate Create User Request Json Schema    ${user}
+
+Should Be Possible Delete A User
+    [Tags]    DeleteUser
+
+    ${response}=    Delete On Session    ${API_ALIAS}    /users/1    200    OK
+    Validate Response Base Informations    ${response}    users/1    200    OK
+    Validate Common Response Headers    ${response.headers}
+    Validate If Response Is Not Empty    ${response}
+    Validate Response Time    ${response}    1500
+
+    Should Be Equal As Strings    ${response.json()}[message]    User deleted successfully
 
