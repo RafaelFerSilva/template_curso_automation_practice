@@ -2,7 +2,7 @@ name: Regression Testing and Deployment
 
 on:
   push:
-    branches: 
+    branches:
       - main
 
 jobs:
@@ -11,6 +11,22 @@ jobs:
     name: Regression
     runs-on: ubuntu-24.04
 
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - "3306:3306"
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+        options: >-
+          --health-cmd="mysqladmin ping --host=localhost --user=root --password=rootpassword"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Checkout the test repository
         uses: actions/checkout@v4
@@ -18,12 +34,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.17.0'
+          node-version: "22.17.0"
 
       - name: Cache pip
         uses: actions/cache@v4
@@ -39,16 +55,16 @@ jobs:
           pip install -U -r requirements.txt
           npx playwright install-deps
 
-      - name: Init Browser Library 
+      - name: Init Browser Library
         run: rfbrowser init
 
       - name: Run the tests
         run: invoke test-regression
-      
+
       - name: Metrics
         if: always()
         run: invoke test-robot-metrics
-    
+
       - name: Upload Test Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -58,35 +74,34 @@ jobs:
             ./reports
           retention-days: 3
           if-no-files-found: ignore
-  
+
   deploy:
     needs: regression
     runs-on: ubuntu-latest
     permissions:
-      pages: write     
-      id-token: write  
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-    - name: Download report
-      uses: actions/download-artifact@v4
-      with:
-        name: test-results
-        path: ./reports/robotmetrics
+      - name: Download report
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results
+          path: ./reports/robotmetrics
 
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-          path: './reports/robotmetrics'
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./reports/robotmetrics"
 
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
-      with:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
