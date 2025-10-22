@@ -2,7 +2,7 @@
 Resource        ${EXECDIR}/resources/keywords/Databse/DataBase.keywords.resource
 Library         ${EXECDIR}/resources/libs/Dotenv.py
 
-Test Tags       database
+Test Tags       database    smoke
 
 
 *** Test Cases ***

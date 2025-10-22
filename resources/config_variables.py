@@ -9,5 +9,6 @@ NEW_CONTEXT = {
     "viewport": VIEWPORT
 }
 
+PIPELINE = False
 ENVIRONMENT = "UAT"
 DB_API_MODULE_NAME = "pymysql"
