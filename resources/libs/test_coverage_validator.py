@@ -13,6 +13,7 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 # Set the timezone to Brazil/Sao Paulo
 brazil_tz = pytz.timezone('America/Sao_Paulo')
 
+
 def generate_markdown_report(result, min_pass_rate):
     """
     Generates a test pass_rate report in Markdown format.
@@ -39,6 +40,9 @@ def generate_markdown_report(result, min_pass_rate):
     # Calculate percentage of passed tests
     pass_percentage = (passed_tests / total_tests) * 100
 
+    failed_percentage = (failed_tests / total_tests) * \
+        100 if total_tests > 0 else 0
+
     # Determine pass_rate status
     pass_rate_status = "Passed ✅" if pass_percentage >= min_pass_rate else "Failed ❌"
 
@@ -51,6 +55,7 @@ def generate_markdown_report(result, min_pass_rate):
 | Pass Rate Status | {pass_rate_status} |
 | Minimum Required Pass Rate | {min_pass_rate}% |
 | Current Pass Rate | {pass_percentage:.2f}% |
+| Failed Rate | {failed_percentage:.2f}% |
 
 ### Test Details
 | Test Type | Quantity |
@@ -61,19 +66,21 @@ def generate_markdown_report(result, min_pass_rate):
 | Skipped Tests | {skipped_tests} |
 
 ### Suite Breakdown
-| Suite | Total Tests | Passed Tests | Pass Rate |
-|-------|-------------|--------------|----------|
+| Suite | Total Tests | Passed Tests | Failed Tests | Skipped Tests | Pass Rate |
+|-------|-------------|--------------|--------------|---------------|-----------|
 """
 
     # Add details for each test suite
     for suite in result.statistics.suite:
-        suite_pass_percentage = (suite.passed / suite.total) * 100 if suite.total > 0 else 0
-        markdown_report += f"| {suite.name} | {suite.total} | {suite.passed} | {suite_pass_percentage:.2f}% |\n"
+        suite_pass_percentage = (
+            suite.passed / suite.total) * 100 if suite.total > 0 else 0
+        markdown_report += f"| {suite.name} | {suite.total} | {suite.passed} | {suite.failed} | {suite.skipped} | {suite_pass_percentage:.2f}% |\n"
 
     # Add footer with Brazil timezone
     markdown_report += f"\n*Generated on: {datetime.now(brazil_tz).strftime('%Y-%m-%d %H:%M:%S')}*"
 
     return markdown_report
+
 
 def save_markdown_report(report, output_dir):
     """
@@ -106,6 +113,7 @@ def save_markdown_report(report, output_dir):
     print(f"Markdown report generated at: {filepath}")
 
     return filepath
+
 
 def validate_test_pass_rate(
     output_file,
@@ -161,6 +169,7 @@ def validate_test_pass_rate(
         print(f"Error in pass_rate validation: {e}")
         sys.exit(1)
 
+
 def main():
     """
     Main function for command-line execution.
@@ -194,6 +203,7 @@ def main():
         min_pass_rate=args.min_pass_rate,
         output_dir=args.output_dir
     )
+
 
 if __name__ == "__main__":
     main()
