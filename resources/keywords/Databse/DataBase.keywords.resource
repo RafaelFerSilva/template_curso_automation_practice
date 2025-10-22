@@ -1,6 +1,13 @@
 *** Settings ***
 Library             DatabaseLibrary
+Library             Collections
+Library             OperatingSystem
+Library             String
 Resource            ${EXECDIR}/resources/common.keywords.resource
+
+
+*** Variables ***
+${LOCAL_SQL_FOLDER}=    ${EXECDIR}/resources/sql/
 
 
 *** Keywords ***
@@ -26,3 +33,18 @@ Connect to application database
     ...    db_host=${DATABASE}[DB_HOST]
     ...    db_port=${DATABASE}[DB_PORT]
 
+Perform a database query
+    [Arguments]    ${query}    ${asDict}=${True}
+
+    ${response_query}=    Query    select_statement=${query}    return_dict=${asDict}
+    Log Many    ${response_query}
+    RETURN    ${response_query}
+
+Return the contents of the sql local query file and perform the query in the database
+    [Arguments]    ${sql_file_name}    @{replace_strings}    ${asDict}=True
+
+    ${template}=    Get File    ${LOCAL_SQL_FOLDER}/${sql_file_name}
+    ${element}=    String Replace    ${template}    @{replace_strings}
+    ${item}=    Perform a database query    ${element}    ${asDict}
+
+    RETURN    ${item}
